@@ -1,0 +1,115 @@
+package foodpantry
+
+import java.time.LocalDate
+
+// ai-assisted: #4
+// why: Implement the allocation algorithm using recursion to guarantee immutability (S1-11) and optimize waste-minimisation based on food expiration date.
+object MatchingEngine {
+
+  // S1-13: DRY - Extract matching and sorting logic into a reusable logic component.
+  // Matches requests to inventory. It prioritizes:
+  // 1. High urgency requests first.
+  // 2. Perishable items that expire first (waste minimization).
+  // 3. Dietary restrictions matching.
+  def generatePlan(
+    inventory: List[PantryItem],
+    requests: List[FamilyRequest]
+  ): (List[DistributionPlan], List[PantryItem]) = {
+    
+    // Sort requests by urgency (descending) and household size (descending)
+    val sortedRequests = requests.sortBy { req =>
+      (-req.urgencyLevel, -req.householdSize)
+    }
+
+    // S1-11: Immutability - We use recursion instead of mutable state loops or mutable arrays.
+    def allocateRecursive(
+      remainingRequests: List[FamilyRequest],
+      currentInventory: List[PantryItem],
+      accPlans: List[DistributionPlan]
+    ): (List[DistributionPlan], List[PantryItem]) = {
+      remainingRequests match {
+        case Nil => 
+          (accPlans.reverse, currentInventory)
+        case currentRequest :: tailRequests =>
+          val requestedCategory = currentRequest.requestCategory
+          val householdSizeVal = currentRequest.householdSize
+          // A family receives up to 2.0 units/kg of items per household size member
+          val targetQuantity: Double = householdSizeVal.toDouble * 2.0
+
+          // Filter candidate items in current inventory
+          val candidates = currentInventory.filter { item =>
+            item.category.equalsIgnoreCase(requestedCategory) && item.quantity > 0.0
+          }
+
+          // Sort candidates:
+          // If PerishableFood, sort by expiration date ascending (earliest first, to minimize waste)
+          // Also filter food items by dietary restriction compatibility
+          val sortedCandidates = candidates.filter { item =>
+            val tag = currentRequest.dietaryRestriction.trim.toLowerCase
+            val itemTag = item.dietaryTag.trim.toLowerCase
+            tag == "standard" || itemTag == "standard" || itemTag == tag
+          }.sortBy {
+            case perishable: PerishableFood =>
+              perishable.expirationDate.toEpochDay
+            case _: ShelfStableFood =>
+              Long.MaxValue // Shelf-stable items do not expire and are checked last
+          }
+
+          // Greedily allocate from sorted candidates
+          def allocateFromCandidates(
+            needed: Double,
+            availCandidates: List[PantryItem],
+            allocatedAcc: List[Allocation],
+            inventoryState: List[PantryItem]
+          ): (List[Allocation], List[PantryItem]) = {
+            if (needed <= 0.0 || availCandidates.isEmpty) {
+              (allocatedAcc.reverse, inventoryState)
+            } else {
+              val candidate = availCandidates.head
+              val takeQty = Math.min(needed, candidate.quantity)
+              if (takeQty > 0.0) {
+                // Update candidate quantity in inventory state
+                val updatedInventoryState = inventoryState.map { item =>
+                  if (item.itemId == candidate.itemId) {
+                    item match {
+                      case perishable: PerishableFood => perishable.copy(quantity = perishable.quantity - takeQty)
+                      case shelfStable: ShelfStableFood => shelfStable.copy(quantity = shelfStable.quantity - takeQty)
+                    }
+                  } else {
+                    item
+                  }
+                }
+                val newAllocation = Allocation(candidate, takeQty)
+                allocateFromCandidates(
+                  needed - takeQty,
+                  availCandidates.tail,
+                  newAllocation :: allocatedAcc,
+                  updatedInventoryState
+                )
+              } else {
+                allocateFromCandidates(needed, availCandidates.tail, allocatedAcc, inventoryState)
+              }
+            }
+          }
+
+          val (allocations, updatedInventory) = allocateFromCandidates(
+            targetQuantity,
+            sortedCandidates,
+            Nil,
+            currentInventory
+          )
+
+          val newPlan = DistributionPlan(
+            planId = s"PLAN-${currentRequest.requestId}",
+            planDate = LocalDate.now(),
+            request = currentRequest,
+            allocations = allocations
+          )
+
+          allocateRecursive(tailRequests, updatedInventory, newPlan :: accPlans)
+      }
+    }
+
+    allocateRecursive(sortedRequests, inventory, Nil)
+  }
+}

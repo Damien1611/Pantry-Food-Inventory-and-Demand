@@ -1,0 +1,35 @@
+DAILY DISTRIBUTION PLAN — 2026-07-28
+========================================================================
+Family: Rodriguez Family | Size: 6 | Urgency: 5
+  Category: Grains & Cereals | Dietary: Gluten-Free
+  -> 12.00 kg of Brown Rice
+------------------------------------------------------------------------
+Family: Al-Fayed Family | Size: 5 | Urgency: 5
+  Category: Proteins | Dietary: Halal
+  -> 10.00 kg of Fresh Salmon
+------------------------------------------------------------------------
+Family: Suzuki Family | Size: 2 | Urgency: 4
+  Category: Fruits & Vegetables | Dietary: Vegan
+  -> 4.00 kg of Strawberries
+------------------------------------------------------------------------
+Family: Miller Family | Size: 4 | Urgency: 3
+  Category: Grains & Cereals | Dietary: Standard
+  -> 8.00 kg of Brown Rice
+------------------------------------------------------------------------
+Family: Williams Family | Size: 3 | Urgency: 2
+  Category: Non-Food Essentials | Dietary: Standard
+  -> 6.00 units of Hygiene Soap
+------------------------------------------------------------------------
+
+REMAINING INVENTORY AFTER ALLOCATION:
+========================================================================
+  Fresh Salmon              | Proteins               | 5.50 kg
+  Fresh Milk                | Beverages              | 8.00 units
+  Strawberries              | Fruits & Vegetables    | 8.00 kg
+  Expired Yogurt            | Beverages              | 4.00 units
+  Brown Rice                | Grains & Cereals       | 80.00 kg
+  Canned Beans              | Proteins               | 50.00 units
+  Gluten-Free Oats          | Grains & Cereals       | 30.00 kg
+  Infant Formula            | Baby & Infant Items    | 20.00 units
+  Hygiene Soap              | Non-Food Essentials    | 34.00 units
+  bread                     | Grains & Cereals       | 10.00 units

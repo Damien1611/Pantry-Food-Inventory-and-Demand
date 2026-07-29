@@ -1,0 +1,9 @@
+Perishable,ITEM-001,Fresh Salmon,15.5,Proteins,2026-08-01,Refrigerated,Halal,kg
+Perishable,ITEM-002,Fresh Milk,8.0,Beverages,2026-07-29,Refrigerated,Standard,units
+Perishable,ITEM-003,Strawberries,12.0,Fruits & Vegetables,2026-08-03,Refrigerated,Standard,kg
+Perishable,ITEM-004,Expired Yogurt,4.0,Beverages,2026-07-20,Refrigerated,Standard,units
+ShelfStable,ITEM-005,Brown Rice,100.0,Grains & Cereals,Dry storage,Standard,kg
+ShelfStable,ITEM-006,Canned Beans,50.0,Proteins,Dry storage,Vegetarian,units
+ShelfStable,ITEM-007,Gluten-Free Oats,30.0,Grains & Cereals,Dry storage,Gluten-Free,kg
+ShelfStable,ITEM-008,Infant Formula,20.0,Baby & Infant Items,Dry storage,Standard,units
+ShelfStable,ITEM-009,Hygiene Soap,40.0,Non-Food Essentials,Dry storage,Standard,units
