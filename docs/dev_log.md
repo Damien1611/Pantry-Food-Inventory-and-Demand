@@ -26,3 +26,9 @@ This document records the daily progress and design decisions for the Food Pantr
 - **Activity**: Polish, validation, and documentation.
 - **Details**: Implemented keyboard form submission (pressing Enter) and rigorous input verification. Generated class diagrams and finalized reflections.
 - **Decisions**: Tested build clean compile cycle with `-Wunused` flags to ensure zero warning compiler status.
+
+## 2026-08-05
+- **Activity**: Rubric compliance modifications and styling improvements.
+- **Details**: Adjusted `MatchingEngine.scala` to exclude expired PerishableFood items and enforce exact dietary restriction matches for non-Standard requests. Refactored `PantryApp.scala` to move `remainingBuffer` to object scope, preserving planner screen state during navigation. Introduced ScalaFX confirmation dialogs with custom CSS styling for dark theme readability.
+- **Decisions**: Linked the application stylesheet directly to Alert popups to resolve text contrast issues.
+

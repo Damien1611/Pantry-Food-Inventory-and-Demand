@@ -29,6 +29,7 @@ object PantryApp extends JFXApp3 {
   private val inventoryBuffer = ObservableBuffer[PantryItem]()
   private val requestsBuffer = ObservableBuffer[FamilyRequest]()
   private val planBuffer = ObservableBuffer[DistributionPlan]()
+  private val remainingBuffer = ObservableBuffer[PantryItem]()
 
   // List of primary food categories
   private val foodCategories = Seq(
@@ -445,12 +446,22 @@ object PantryApp extends JFXApp3 {
       onAction = handle {
         val selectedItem = tableView.selectionModel.value.getSelectedItem
         if (selectedItem != null) {
-          inventoryRepo.delete(item => item.itemId == selectedItem.itemId) match {
-            case Success(_) =>
-              statusMessage.value = s"Deleted item: ${selectedItem.itemName}"
-              reloadData()
-            case Failure(errorEx) =>
-              errorLabel.text = s"Failed to delete item: ${errorEx.getMessage}"
+          val alert = new Alert(Alert.AlertType.Confirmation) {
+            initOwner(stage)
+            title = "Confirm Deletion"
+            headerText = "Delete Inventory Item"
+            contentText = s"Are you sure you want to delete ${selectedItem.itemName}?"
+          }
+          alert.dialogPane.value.stylesheets.add(getClass.getResource("/styles.css").toExternalForm)
+          val result = alert.showAndWait()
+          if (result.contains(ButtonType.OK)) {
+            inventoryRepo.delete(item => item.itemId == selectedItem.itemId) match {
+              case Success(_) =>
+                statusMessage.value = s"Deleted item: ${selectedItem.itemName}"
+                reloadData()
+              case Failure(errorEx) =>
+                errorLabel.text = s"Failed to delete item: ${errorEx.getMessage}"
+            }
           }
         } else {
           errorLabel.text = "Select an item from the table to delete."
@@ -606,12 +617,22 @@ object PantryApp extends JFXApp3 {
       onAction = handle {
         val selectedReq = tableView.selectionModel.value.getSelectedItem
         if (selectedReq != null) {
-          requestsRepo.delete(req => req.requestId == selectedReq.requestId) match {
-            case Success(_) =>
-              statusMessage.value = s"Deleted request for ${selectedReq.familyName}"
-              reloadData()
-            case Failure(errorEx) =>
-              errorLabel.text = s"Failed to delete request: ${errorEx.getMessage}"
+          val alert = new Alert(Alert.AlertType.Confirmation) {
+            initOwner(stage)
+            title = "Confirm Deletion"
+            headerText = "Delete Family Request"
+            contentText = s"Are you sure you want to delete request for ${selectedReq.familyName}?"
+          }
+          alert.dialogPane.value.stylesheets.add(getClass.getResource("/styles.css").toExternalForm)
+          val result = alert.showAndWait()
+          if (result.contains(ButtonType.OK)) {
+            requestsRepo.delete(req => req.requestId == selectedReq.requestId) match {
+              case Success(_) =>
+                statusMessage.value = s"Deleted request for ${selectedReq.familyName}"
+                reloadData()
+              case Failure(errorEx) =>
+                errorLabel.text = s"Failed to delete request: ${errorEx.getMessage}"
+            }
           }
         } else {
           errorLabel.text = "Select a request from the table to delete."
@@ -656,8 +677,7 @@ object PantryApp extends JFXApp3 {
     val titleLbl = new Label("Distribution Planner & Waste Reducer") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Run the optimization engine to match pending family requests to expiring inventory items.") { styleClass.add("header-subtitle") }
 
-    // Reactive buffer for remaining inventory after allocation (local to this screen)
-    val remainingBuffer = ObservableBuffer[PantryItem]()
+    // Using object-level remainingBuffer to persist state across screen navigation
 
     // ── TABLE 1: Allocation Plan per Family ───────────────────────────────────
     val planTable = new TableView[DistributionPlan](planBuffer) {
@@ -755,7 +775,7 @@ object PantryApp extends JFXApp3 {
 
     val btnSavePlan = new Button("Export Distribution Plan") {
       styleClass.add("btn-primary")
-      disable = true
+      disable = planBuffer.isEmpty
     }
 
     btnRun.onAction = handle {

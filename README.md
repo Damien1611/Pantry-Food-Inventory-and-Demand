@@ -7,7 +7,7 @@ This application directly addresses **UN Sustainable Development Goal 1: No Pove
 ---
 
 ## Developer and Submission Details
-- **Student Name**: Damien (Placeholder)
+- **Student Name**: Damien Yee Jin Yang
 - **Student ID**: 23080633
 - **Programme**: BSC (HONS) COMPUTER SCIENCE
 - **Cohort**: 2026/02

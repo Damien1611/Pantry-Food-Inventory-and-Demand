@@ -9,10 +9,13 @@ I, the student named on the cover page, declare that:
 
 ## AI Tools Used
 - Gemini
+- Antigravity
+- Claude
+- Codex
 
 ---
 
-**Student Name**: Damien (Placeholder)
+**Student Name**: Damien Yee Jin Yang
 **Student ID**: 23080633
 **Programme**: BSC (HONS) COMPUTER SCIENCE
 **Cohort**: 2026/02

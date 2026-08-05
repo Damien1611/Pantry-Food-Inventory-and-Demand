@@ -36,18 +36,27 @@ object MatchingEngine {
           // A family receives up to 2.0 units/kg of items per household size member
           val targetQuantity: Double = householdSizeVal.toDouble * 2.0
 
-          // Filter candidate items in current inventory
+          val today = LocalDate.now()
+          // Filter candidate items in current inventory:
+          // 1. Matches category and quantity > 0.0
+          // 2. Exclude already-expired PerishableFood items (expirationDate is before today)
           val candidates = currentInventory.filter { item =>
-            item.category.equalsIgnoreCase(requestedCategory) && item.quantity > 0.0
+            item.category.equalsIgnoreCase(requestedCategory) && item.quantity > 0.0 && (item match {
+              case perishable: PerishableFood => !perishable.expirationDate.isBefore(today)
+              case _: ShelfStableFood => true
+            })
           }
 
           // Sort candidates:
           // If PerishableFood, sort by expiration date ascending (earliest first, to minimize waste)
-          // Also filter food items by dietary restriction compatibility
+          // Also filter food items by dietary restriction compatibility:
+          // - A Standard request can be satisfied by any item (any tag is fine).
+          // - A non-Standard request can only be satisfied by an item whose dietaryTag matches exactly.
           val sortedCandidates = candidates.filter { item =>
             val tag = currentRequest.dietaryRestriction.trim.toLowerCase
             val itemTag = item.dietaryTag.trim.toLowerCase
-            tag == "standard" || itemTag == "standard" || itemTag == tag
+            if (tag == "standard") true
+            else itemTag == tag
           }.sortBy {
             case perishable: PerishableFood =>
               perishable.expirationDate.toEpochDay
