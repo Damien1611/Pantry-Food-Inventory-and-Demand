@@ -32,3 +32,7 @@ This document records the daily progress and design decisions for the Food Pantr
 - **Details**: Adjusted `MatchingEngine.scala` to exclude expired PerishableFood items and enforce exact dietary restriction matches for non-Standard requests. Refactored `PantryApp.scala` to move `remainingBuffer` to object scope, preserving planner screen state during navigation. Introduced ScalaFX confirmation dialogs with custom CSS styling for dark theme readability.
 - **Decisions**: Linked the application stylesheet directly to Alert popups to resolve text contrast issues.
 
+## 2026-08-08
+- **Activity**: Sample data expansion and UI layout improvements.
+- **Details**: Populated `inventory.csv` with 38 diverse items (18 perishable, 20 shelf-stable) and `requests.csv` with 20 family requests across all categories and dietary tags. Replaced the dashboard's `ListView[String]` risk display with a structured `TableView[PerishableFood]` showing status, name, category, quantity, expiry date, and storage columns. Made the inventory screen table dynamically fill available vertical space using `VBox.setVgrow(ALWAYS)` and wrapped the screen in a `ScrollPane` for windowed mode usability. Increased the default window size from 1000×680 to 1280×820.
+- **Decisions**: Added high-contrast scrollbar CSS rules (`.scroll-bar .thumb` in slate-600, hover in sky-400) so users can clearly identify and drag the scrollbar thumb against the dark track background across all tables.
