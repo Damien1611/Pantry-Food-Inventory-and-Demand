@@ -265,7 +265,6 @@ object PantryApp extends JFXApp3 {
 
     val riskTable = new TableView[PerishableFood](ObservableBuffer.from(riskItems)) {
       prefHeight = 220
-      columnResizePolicy = TableView.ConstrainedResizePolicy
       placeholder = new Label("No expired or expiring items. Excellent inventory health!") {
         style = "-fx-text-fill: #64748b;"
       }
@@ -317,9 +316,7 @@ object PantryApp extends JFXApp3 {
     val subtitleLbl = new Label("Log and manage food pantry items. Green color tags denote perishable food items.") { styleClass.add("header-subtitle") }
 
     // Table view to display items — grows to fill available vertical space
-    val tableView = new TableView[PantryItem](inventoryBuffer) {
-      columnResizePolicy = TableView.ConstrainedResizePolicy
-    }
+    val tableView = new TableView[PantryItem](inventoryBuffer)
     VBox.setVgrow(tableView, javafx.scene.layout.Priority.ALWAYS)
 
     val colId = new TableColumn[PantryItem, String]("ID") {
@@ -553,7 +550,6 @@ object PantryApp extends JFXApp3 {
     // Table view to display family requests
     val tableView = new TableView[FamilyRequest](requestsBuffer) {
       prefHeight = 250
-      columnResizePolicy = TableView.ConstrainedResizePolicy
     }
 
     val colId = new TableColumn[FamilyRequest, String]("Request ID") {
@@ -720,7 +716,6 @@ object PantryApp extends JFXApp3 {
     // ── TABLE 1: Allocation Plan per Family ───────────────────────────────────
     val planTable = new TableView[DistributionPlan](planBuffer) {
       prefHeight = 230
-      columnResizePolicy = TableView.ConstrainedResizePolicy
       placeholder = new Label("Click 'Run Plan Optimization' to generate the allocation plan.") {
         style = "-fx-text-fill: #64748b;"
       }
@@ -775,7 +770,6 @@ object PantryApp extends JFXApp3 {
 
     val remainingTable = new TableView[PantryItem](remainingBuffer) {
       prefHeight = 200
-      columnResizePolicy = TableView.ConstrainedResizePolicy
       placeholder = new Label("Run the planner to see remaining stock.") {
         style = "-fx-text-fill: #64748b;"
       }
