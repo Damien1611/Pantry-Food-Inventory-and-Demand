@@ -27,8 +27,8 @@
 |---|---|---|
 | Number of classes / traits in src/main/scala | ≥ 5 | 7 |
 | Number of `// ai-assisted: #N` tags in src/ | ≥ 3 | 8 |
-| Number of entries in ai/interaction_log.md | ≥ 10 | 19 |
-| Distinct dates in docs/dev_log.md | ≥ 5 | 7 |
+| Number of entries in ai/interaction_log.md | ≥ 10 | 20 |
+| Distinct dates in docs/dev_log.md | ≥ 5 | 8 |
 | Word count of docs/reflection.md | 350–700 | 485 |
 | Word count of docs/ai_reflection.md | 300–500 | 385 |
 | sbt -Wunused clean compile passes? | Yes | Yes |

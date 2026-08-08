@@ -36,3 +36,9 @@ This document records the daily progress and design decisions for the Food Pantr
 - **Activity**: Sample data expansion and UI layout improvements.
 - **Details**: Populated `inventory.csv` with 38 diverse items (18 perishable, 20 shelf-stable) and `requests.csv` with 20 family requests across all categories and dietary tags. Replaced the dashboard's `ListView[String]` risk display with a structured `TableView[PerishableFood]` showing status, name, category, quantity, expiry date, and storage columns. Made the inventory screen table dynamically fill available vertical space using `VBox.setVgrow(ALWAYS)` and wrapped the screen in a `ScrollPane` for windowed mode usability. Increased the default window size from 1000×680 to 1280×820.
 - **Decisions**: Added high-contrast scrollbar CSS rules (`.scroll-bar .thumb` in slate-600, hover in sky-400) so users can clearly identify and drag the scrollbar thumb against the dark track background across all tables.
+
+## 2026-08-09
+- **Activity**: Comprehensive DRY refactoring of ScalaFX application UI code.
+- **Details**: Refactored `PantryApp.scala` to eliminate repeated code patterns across all screens. Extracted `strColumn` to generate TableColumns in a single line (replacing 25 verbose definitions), `metricCard` to build Dashboard metric cards with custom highlight callbacks, `submitOnEnter` for form keyboard listeners, `confirmDeletion` for ScalaFX delete confirmation popups, and `styleSheetPath` for stylesheet URL resolution.
+- **Decisions**: Conducted a pure DRY refactor to achieve a net 134-line reduction (-229 deletions, +95 insertions) without modifying any UI appearance, user-visible text, or layout structures. Verified zero-warning compilation under `-Wunused` and verified complete brace/paren balance.
+
