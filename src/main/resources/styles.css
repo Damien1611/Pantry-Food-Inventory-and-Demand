@@ -122,12 +122,16 @@
     -fx-background-radius: 6px 6px 0 0;
 }
 
-.table-view .column-header {
-    -fx-background-color: transparent;
+.table-view .column-header,
+.table-view .filler,
+.table-view .column-header-background .filler,
+.table-view .show-hide-columns-button {
+    -fx-background-color: #334155;
     -fx-size: 35px;
 }
 
-.table-view .column-header .label {
+.table-view .column-header .label,
+.table-view .filler .label {
     -fx-text-fill: #e2e8f0;
     -fx-font-weight: bold;
 }
