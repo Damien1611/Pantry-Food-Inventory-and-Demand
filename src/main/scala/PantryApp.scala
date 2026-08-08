@@ -284,7 +284,7 @@ object PantryApp extends JFXApp3 {
     }
     val rColCategory = new TableColumn[PerishableFood, String]("Category") {
       cellValueFactory = { cd => StringProperty(cd.value.category) }
-      prefWidth = 160
+      prefWidth = 220
     }
     val rColQty = new TableColumn[PerishableFood, String]("Quantity") {
       cellValueFactory = { cd => StringProperty(f"${cd.value.quantity}%.2f ${cd.value.unitType}") }
@@ -337,11 +337,11 @@ object PantryApp extends JFXApp3 {
     }
     val colCategory = new TableColumn[PantryItem, String]("Category") {
       cellValueFactory = { cellData => StringProperty(cellData.value.category) }
-      prefWidth = 130
+      prefWidth = 210
     }
     val colDetails = new TableColumn[PantryItem, String]("Details / Expiration") {
       cellValueFactory = { cellData => StringProperty(cellData.value.displayDetails) }
-      prefWidth = 350
+      prefWidth = 480
     }
 
     tableView.columns ++= Seq(colId, colName, colQty, colUnit, colCategory, colDetails)
@@ -566,7 +566,7 @@ object PantryApp extends JFXApp3 {
     }
     val colCategory = new TableColumn[FamilyRequest, String]("Category") {
       cellValueFactory = { cellData => StringProperty(cellData.value.requestCategory) }
-      prefWidth = 150
+      prefWidth = 210
     }
     val colDiet = new TableColumn[FamilyRequest, String]("Dietary Option") {
       cellValueFactory = { cellData => StringProperty(cellData.value.dietaryRestriction) }
@@ -574,7 +574,7 @@ object PantryApp extends JFXApp3 {
     }
     val colUrgency = new TableColumn[FamilyRequest, String]("Urgency Level (1-5)") {
       cellValueFactory = { cellData => StringProperty(cellData.value.urgencyLevel.toString) }
-      prefWidth = 120
+      prefWidth = 160
     }
 
     tableView.columns ++= Seq(colId, colName, colSize, colCategory, colDiet, colUrgency)
