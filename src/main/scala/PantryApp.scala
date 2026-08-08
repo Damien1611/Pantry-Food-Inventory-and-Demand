@@ -254,34 +254,60 @@ object PantryApp extends JFXApp3 {
       children = Seq(cardWeightStock, cardUnitStock, cardExpiringSoon, cardExpired, cardRequests, cardUrgent)
     }
 
-    // List of high-risk items (expired or expiring soon)
+    // Table of high-risk items (expired or expiring soon)
     val riskItemsLabel = new Label("High-Risk Perishable Food Items") {
       style = "-fx-text-fill: #f8fafc; -fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 10px 0 5px 0;"
     }
 
-    val riskItemsList = new ListView[String] {
-      prefHeight = 200
-      style = "-fx-background-color: #1e293b; -fx-control-inner-background: #1e293b;"
+    val riskItems = inventoryBuffer.collect {
+      case p: PerishableFood if p.expirationDate.isBefore(todayDate.plusDays(7)) => p
+    }.toSeq.sortBy(_.expirationDate.toEpochDay)
+
+    val riskTable = new TableView[PerishableFood](ObservableBuffer.from(riskItems)) {
+      prefHeight = 220
+      placeholder = new Label("No expired or expiring items. Excellent inventory health!") {
+        style = "-fx-text-fill: #64748b;"
+      }
     }
 
-    val riskTexts = inventoryBuffer.collect {
-      case perishable: PerishableFood if perishable.expirationDate.isBefore(todayDate) =>
-        s"[EXPIRED] ${perishable.itemName} - Qty: ${perishable.quantity} ${perishable.unitType} - Expired: ${perishable.expirationDate}"
-      case perishable: PerishableFood if perishable.expirationDate.isBefore(todayDate.plusDays(7)) =>
-        s"[EXPIRING SOON] ${perishable.itemName} - Qty: ${perishable.quantity} ${perishable.unitType} - Expires: ${perishable.expirationDate}"
+    val rColStatus = new TableColumn[PerishableFood, String]("Status") {
+      cellValueFactory = { cd =>
+        val p = cd.value
+        val status = if (p.expirationDate.isBefore(todayDate)) "⚠ EXPIRED" else "⏳ EXPIRING SOON"
+        StringProperty(status)
+      }
+      prefWidth = 130
     }
-    
-    if (riskTexts.isEmpty) {
-      riskItemsList.items = ObservableBuffer.from(Seq("No expired or expiring items. Excellent inventory health!"))
-    } else {
-      riskItemsList.items = ObservableBuffer.from(riskTexts)
+    val rColName = new TableColumn[PerishableFood, String]("Item Name") {
+      cellValueFactory = { cd => StringProperty(cd.value.itemName) }
+      prefWidth = 160
+    }
+    val rColCategory = new TableColumn[PerishableFood, String]("Category") {
+      cellValueFactory = { cd => StringProperty(cd.value.category) }
+      prefWidth = 160
+    }
+    val rColQty = new TableColumn[PerishableFood, String]("Quantity") {
+      cellValueFactory = { cd => StringProperty(f"${cd.value.quantity}%.2f ${cd.value.unitType}") }
+      prefWidth = 110
+    }
+    val rColExpiry = new TableColumn[PerishableFood, String]("Expiry Date") {
+      cellValueFactory = { cd => StringProperty(cd.value.expirationDate.toString) }
+      prefWidth = 110
+    }
+    val rColStorage = new TableColumn[PerishableFood, String]("Storage") {
+      cellValueFactory = { cd => StringProperty(cd.value.storageTemp) }
+      prefWidth = 110
     }
 
-    new VBox {
+    riskTable.columns ++= Seq(rColStatus, rColName, rColCategory, rColQty, rColExpiry, rColStorage)
+
+    val contentVBox = new VBox {
       padding = Insets(24)
       spacing = 10
-      children = Seq(titleLbl, subtitleLbl, flowPane, riskItemsLabel, riskItemsList)
+      children = Seq(titleLbl, subtitleLbl, flowPane, riskItemsLabel, riskTable)
     }
+    VBox.setVgrow(riskTable, javafx.scene.layout.Priority.ALWAYS)
+    contentVBox
   }
 
   // SCREEN 2: Inventory Logging Screen
@@ -289,10 +315,9 @@ object PantryApp extends JFXApp3 {
     val titleLbl = new Label("Inventory Management") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Log and manage food pantry items. Green color tags denote perishable food items.") { styleClass.add("header-subtitle") }
 
-    // Table view to display items
-    val tableView = new TableView[PantryItem](inventoryBuffer) {
-      prefHeight = 250
-    }
+    // Table view to display items — grows to fill available vertical space
+    val tableView = new TableView[PantryItem](inventoryBuffer)
+    VBox.setVgrow(tableView, javafx.scene.layout.Priority.ALWAYS)
 
     val colId = new TableColumn[PantryItem, String]("ID") {
       cellValueFactory = { cellData => StringProperty(cellData.value.itemId) }
@@ -501,11 +526,20 @@ object PantryApp extends JFXApp3 {
       add(btnDelete, 1, 7)
     }
 
-    new VBox {
+    val contentBox = new VBox {
       padding = Insets(24)
       spacing = 15
       children = Seq(titleLbl, subtitleLbl, tableView, formTitle, formGrid, errorLabel)
     }
+    VBox.setVgrow(tableView, javafx.scene.layout.Priority.ALWAYS)
+
+    val scrollPane = new ScrollPane {
+      content = contentBox
+      fitToWidth = true
+      fitToHeight = true
+      style = "-fx-background-color: transparent; -fx-background: transparent;"
+    }
+    new StackPane { children = Seq(scrollPane) }
   }
 
   // SCREEN 3: Family Requests Logging Screen
