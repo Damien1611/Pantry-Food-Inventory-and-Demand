@@ -21,6 +21,9 @@ object PantryApp extends JFXApp3 {
   private val inventoryFile: String = "src/main/resources/inventory.csv"
   private val requestsFile: String = "src/main/resources/requests.csv"
 
+  // Stylesheet resource path
+  private val styleSheetPath: String = getClass.getResource("/styles.css").toExternalForm
+
   // Repositories
   private val inventoryRepo: DataRepository[PantryItem] = new DataRepository[PantryItem](inventoryFile, PantryItemSerializer)
   private val requestsRepo: DataRepository[FamilyRequest] = new DataRepository[FamilyRequest](requestsFile, FamilyRequestSerializer)
@@ -86,7 +89,50 @@ object PantryApp extends JFXApp3 {
     }
   }
 
+  // Generic helper for creating standard TableColumn instances
+  private def strColumn[T](header: String, colWidth: Double)(extractor: T => String): TableColumn[T, String] = {
+    new TableColumn[T, String](header) {
+      cellValueFactory = { cd => StringProperty(extractor(cd.value)) }
+      prefWidth = colWidth
+    }
+  }
 
+  // Helper for building metric cards on the Dashboard
+  private def metricCard(titleText: String, valueText: String)(highlight: Label => Unit = _ => ()): VBox = {
+    val valueLbl = new Label(valueText) { styleClass.add("metric-value") }
+    highlight(valueLbl)
+    new VBox {
+      styleClass.add("metric-card")
+      children = Seq(
+        new Label(titleText) { styleClass.add("metric-title") },
+        valueLbl
+      )
+    }
+  }
+
+  // ai-assisted: #9
+  // why: Intercept Enter key presses on form TextFields using ScalaFX native KeyCode and KeyEvents to trigger submission (S2-10).
+  private def submitOnEnter(fields: TextField*)(action: => Unit): Unit = {
+    val enterKeyHandler = (keyEvent: KeyEvent) => {
+      if (keyEvent.code == KeyCode.Enter) {
+        action
+      }
+    }
+    fields.foreach(_.onKeyPressed = enterKeyHandler)
+  }
+
+  // Helper for displaying delete confirmation dialogs
+  private def confirmDeletion(headerTextVal: String, contentTextVal: String): Boolean = {
+    val alert = new Alert(Alert.AlertType.Confirmation) {
+      initOwner(stage)
+      title = "Confirm Deletion"
+      headerText = headerTextVal
+      contentText = contentTextVal
+    }
+    alert.dialogPane.value.stylesheets.add(styleSheetPath)
+    val result = alert.showAndWait()
+    result.contains(ButtonType.OK)
+  }
 
   override def start(): Unit = {
     // Load initial data
@@ -95,9 +141,9 @@ object PantryApp extends JFXApp3 {
     // Main layout container
     val rootPane = new BorderPane()
 
-    // Apply the premium stylesheet stylesheet
+    // Apply the premium stylesheet
     val sceneObj = new Scene(rootPane, 1280, 820)
-    sceneObj.stylesheets.add(getClass.getResource("/styles.css").toExternalForm)
+    sceneObj.stylesheets.add(styleSheetPath)
 
     stage = new JFXApp3.PrimaryStage {
       title = "Food Pantry Inventory & Demand Optimizer"
@@ -190,61 +236,17 @@ object PantryApp extends JFXApp3 {
     val highlyUrgentRequestsCount = requestsBuffer.count(req => req.urgencyLevel >= 4)
 
     // Layout cards for metrics
-    val cardWeightStock = new VBox {
-      styleClass.add("metric-card")
-      children = Seq(
-        new Label("Weight-Based Stock") { styleClass.add("metric-title") },
-        new Label(f"$totalWeight%.2f kg") { styleClass.add("metric-value") }
-      )
+    val cardWeightStock = metricCard("Weight-Based Stock", f"$totalWeight%.2f kg")()
+    val cardUnitStock   = metricCard("Count-Based Stock", f"$totalUnits%.0f units")()
+    val cardExpiringSoon = metricCard("Expiring Soon (<7 Days)", f"$expiringCount%.1f items") { lbl =>
+      if (expiringCount > 0.0) lbl.styleClass.add("metric-warning")
     }
-
-    val cardUnitStock = new VBox {
-      styleClass.add("metric-card")
-      children = Seq(
-        new Label("Count-Based Stock") { styleClass.add("metric-title") },
-        new Label(f"$totalUnits%.0f units") { styleClass.add("metric-value") }
-      )
+    val cardExpired = metricCard("Expired (Waste Risk)", f"$expiredCount%.1f items") { lbl =>
+      if (expiredCount > 0.0) lbl.style = "-fx-text-fill: #ef4444;"
     }
-
-    val cardExpiringSoon = new VBox {
-      styleClass.add("metric-card")
-      children = Seq(
-        new Label("Expiring Soon (<7 Days)") { styleClass.add("metric-title") },
-        new Label(f"$expiringCount%.1f items") {
-          styleClass.add("metric-value")
-          if (expiringCount > 0.0) styleClass.add("metric-warning")
-        }
-      )
-    }
-
-    val cardExpired = new VBox {
-      styleClass.add("metric-card")
-      children = Seq(
-        new Label("Expired (Waste Risk)") { styleClass.add("metric-title") },
-        new Label(f"$expiredCount%.1f items") {
-          styleClass.add("metric-value")
-          if (expiredCount > 0.0) style = "-fx-text-fill: #ef4444;" // Red highlight
-        }
-      )
-    }
-
-    val cardRequests = new VBox {
-      styleClass.add("metric-card")
-      children = Seq(
-        new Label("Pending Requests") { styleClass.add("metric-title") },
-        new Label(s"$activeRequestsCount families") { styleClass.add("metric-value") }
-      )
-    }
-
-    val cardUrgent = new VBox {
-      styleClass.add("metric-card")
-      children = Seq(
-        new Label("Highly Urgent (Level 4+)") { styleClass.add("metric-title") },
-        new Label(s"$highlyUrgentRequestsCount families") {
-          styleClass.add("metric-value")
-          if (highlyUrgentRequestsCount > 0) style = "-fx-text-fill: #ef4444;"
-        }
-      )
+    val cardRequests = metricCard("Pending Requests", s"$activeRequestsCount families")()
+    val cardUrgent   = metricCard("Highly Urgent (Level 4+)", s"$highlyUrgentRequestsCount families") { lbl =>
+      if (highlyUrgentRequestsCount > 0) lbl.style = "-fx-text-fill: #ef4444;"
     }
 
     val flowPane = new FlowPane {
@@ -270,34 +272,12 @@ object PantryApp extends JFXApp3 {
       }
     }
 
-    val rColStatus = new TableColumn[PerishableFood, String]("Status") {
-      cellValueFactory = { cd =>
-        val item = cd.value
-        val status = if (item.expirationDate.isBefore(todayDate)) "⚠ EXPIRED" else "⏳ EXPIRING SOON"
-        StringProperty(status)
-      }
-      prefWidth = 130
-    }
-    val rColName = new TableColumn[PerishableFood, String]("Item Name") {
-      cellValueFactory = { cd => StringProperty(cd.value.itemName) }
-      prefWidth = 160
-    }
-    val rColCategory = new TableColumn[PerishableFood, String]("Category") {
-      cellValueFactory = { cd => StringProperty(cd.value.category) }
-      prefWidth = 220
-    }
-    val rColQty = new TableColumn[PerishableFood, String]("Quantity") {
-      cellValueFactory = { cd => StringProperty(f"${cd.value.quantity}%.2f ${cd.value.unitType}") }
-      prefWidth = 110
-    }
-    val rColExpiry = new TableColumn[PerishableFood, String]("Expiry Date") {
-      cellValueFactory = { cd => StringProperty(cd.value.expirationDate.toString) }
-      prefWidth = 110
-    }
-    val rColStorage = new TableColumn[PerishableFood, String]("Storage") {
-      cellValueFactory = { cd => StringProperty(cd.value.storageTemp) }
-      prefWidth = 110
-    }
+    val rColStatus   = strColumn[PerishableFood]("Status", 130)(item => if (item.expirationDate.isBefore(todayDate)) "⚠ EXPIRED" else "⏳ EXPIRING SOON")
+    val rColName     = strColumn[PerishableFood]("Item Name", 160)(_.itemName)
+    val rColCategory = strColumn[PerishableFood]("Category", 220)(_.category)
+    val rColQty      = strColumn[PerishableFood]("Quantity", 110)(item => f"${item.quantity}%.2f ${item.unitType}")
+    val rColExpiry   = strColumn[PerishableFood]("Expiry Date", 110)(_.expirationDate.toString)
+    val rColStorage  = strColumn[PerishableFood]("Storage", 110)(_.storageTemp)
 
     riskTable.columns ++= Seq(rColStatus, rColName, rColCategory, rColQty, rColExpiry, rColStorage)
 
@@ -319,30 +299,12 @@ object PantryApp extends JFXApp3 {
     val tableView = new TableView[PantryItem](inventoryBuffer)
     VBox.setVgrow(tableView, Priority.Always)
 
-    val colId = new TableColumn[PantryItem, String]("ID") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.itemId) }
-      prefWidth = 80
-    }
-    val colName = new TableColumn[PantryItem, String]("Item Name") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.itemName) }
-      prefWidth = 150
-    }
-    val colQty = new TableColumn[PantryItem, String]("Quantity") {
-      cellValueFactory = { cellData => StringProperty(f"${cellData.value.quantity}%.2f") }
-      prefWidth = 80
-    }
-    val colUnit = new TableColumn[PantryItem, String]("Unit") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.unitType) }
-      prefWidth = 60
-    }
-    val colCategory = new TableColumn[PantryItem, String]("Category") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.category) }
-      prefWidth = 210
-    }
-    val colDetails = new TableColumn[PantryItem, String]("Details / Expiration") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.displayDetails) }
-      prefWidth = 480
-    }
+    val colId       = strColumn[PantryItem]("ID", 80)(_.itemId)
+    val colName     = strColumn[PantryItem]("Item Name", 150)(_.itemName)
+    val colQty      = strColumn[PantryItem]("Quantity", 80)(item => f"${item.quantity}%.2f")
+    val colUnit     = strColumn[PantryItem]("Unit", 60)(_.unitType)
+    val colCategory = strColumn[PantryItem]("Category", 210)(_.category)
+    val colDetails  = strColumn[PantryItem]("Details / Expiration", 480)(_.displayDetails)
 
     tableView.columns ++= Seq(colId, colName, colQty, colUnit, colCategory, colDetails)
 
@@ -357,7 +319,7 @@ object PantryApp extends JFXApp3 {
     val typeCombo = new ComboBox[String](Seq("Perishable", "ShelfStable")) { value = "Perishable" }
     val unitCombo = new ComboBox[String](Seq("kg", "units")) { value = "kg" }
     val dietaryCombo = new ComboBox[String](Seq("Standard", "Vegan", "Vegetarian", "Gluten-Free", "Halal")) { value = "Standard" }
-    
+
     // Perishable specific fields
     val storageCombo = new ComboBox[String](Seq("Refrigerated", "Frozen")) { value = "Refrigerated" }
     val expiryPicker = new DatePicker { promptText = "Select Expiration Date" }
@@ -450,15 +412,7 @@ object PantryApp extends JFXApp3 {
       }
     }
 
-    // ai-assisted: #9
-    // why: Intercept Enter key presses on form TextFields using ScalaFX native KeyCode and KeyEvents to trigger submission (S2-10).
-    val enterKeyHandler = (keyEvent: KeyEvent) => {
-      if (keyEvent.code == KeyCode.Enter) {
-        validateAndSubmit()
-      }
-    }
-    nameField.onKeyPressed = enterKeyHandler
-    qtyField.onKeyPressed = enterKeyHandler
+    submitOnEnter(nameField, qtyField)(validateAndSubmit())
 
     val btnSave = new Button("Add Inventory Item") {
       styleClass.add("btn-primary")
@@ -471,15 +425,7 @@ object PantryApp extends JFXApp3 {
       onAction = handle {
         val selectedItem = tableView.selectionModel.value.getSelectedItem
         if (selectedItem != null) {
-          val alert = new Alert(Alert.AlertType.Confirmation) {
-            initOwner(stage)
-            title = "Confirm Deletion"
-            headerText = "Delete Inventory Item"
-            contentText = s"Are you sure you want to delete ${selectedItem.itemName}?"
-          }
-          alert.dialogPane.value.stylesheets.add(getClass.getResource("/styles.css").toExternalForm)
-          val result = alert.showAndWait()
-          if (result.contains(ButtonType.OK)) {
+          if (confirmDeletion("Delete Inventory Item", s"Are you sure you want to delete ${selectedItem.itemName}?")) {
             inventoryRepo.delete(item => item.itemId == selectedItem.itemId) match {
               case Success(_) =>
                 statusMessage.value = s"Deleted item: ${selectedItem.itemName}"
@@ -552,30 +498,12 @@ object PantryApp extends JFXApp3 {
       prefHeight = 250
     }
 
-    val colId = new TableColumn[FamilyRequest, String]("Request ID") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.requestId) }
-      prefWidth = 100
-    }
-    val colName = new TableColumn[FamilyRequest, String]("Family Name") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.familyName) }
-      prefWidth = 150
-    }
-    val colSize = new TableColumn[FamilyRequest, String]("Size") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.householdSize.toString) }
-      prefWidth = 80
-    }
-    val colCategory = new TableColumn[FamilyRequest, String]("Category") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.requestCategory) }
-      prefWidth = 210
-    }
-    val colDiet = new TableColumn[FamilyRequest, String]("Dietary Option") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.dietaryRestriction) }
-      prefWidth = 120
-    }
-    val colUrgency = new TableColumn[FamilyRequest, String]("Urgency Level (1-5)") {
-      cellValueFactory = { cellData => StringProperty(cellData.value.urgencyLevel.toString) }
-      prefWidth = 160
-    }
+    val colId       = strColumn[FamilyRequest]("Request ID", 100)(_.requestId)
+    val colName     = strColumn[FamilyRequest]("Family Name", 150)(_.familyName)
+    val colSize     = strColumn[FamilyRequest]("Size", 80)(_.householdSize.toString)
+    val colCategory = strColumn[FamilyRequest]("Category", 210)(_.requestCategory)
+    val colDiet     = strColumn[FamilyRequest]("Dietary Option", 120)(_.dietaryRestriction)
+    val colUrgency  = strColumn[FamilyRequest]("Urgency Level (1-5)", 160)(_.urgencyLevel.toString)
 
     tableView.columns ++= Seq(colId, colName, colSize, colCategory, colDiet, colUrgency)
 
@@ -632,14 +560,7 @@ object PantryApp extends JFXApp3 {
       }
     }
 
-    // Keyboard submit listener (S2-10)
-    val enterKeyHandler = (keyEvent: KeyEvent) => {
-      if (keyEvent.code == KeyCode.Enter) {
-        validateAndSubmit()
-      }
-    }
-    nameField.onKeyPressed = enterKeyHandler
-    sizeField.onKeyPressed = enterKeyHandler
+    submitOnEnter(nameField, sizeField)(validateAndSubmit())
 
     val btnSave = new Button("Submit Request") {
       styleClass.add("btn-primary")
@@ -651,15 +572,7 @@ object PantryApp extends JFXApp3 {
       onAction = handle {
         val selectedReq = tableView.selectionModel.value.getSelectedItem
         if (selectedReq != null) {
-          val alert = new Alert(Alert.AlertType.Confirmation) {
-            initOwner(stage)
-            title = "Confirm Deletion"
-            headerText = "Delete Family Request"
-            contentText = s"Are you sure you want to delete request for ${selectedReq.familyName}?"
-          }
-          alert.dialogPane.value.stylesheets.add(getClass.getResource("/styles.css").toExternalForm)
-          val result = alert.showAndWait()
-          if (result.contains(ButtonType.OK)) {
+          if (confirmDeletion("Delete Family Request", s"Are you sure you want to delete request for ${selectedReq.familyName}?")) {
             requestsRepo.delete(req => req.requestId == selectedReq.requestId) match {
               case Success(_) =>
                 statusMessage.value = s"Deleted request for ${selectedReq.familyName}"
@@ -721,44 +634,15 @@ object PantryApp extends JFXApp3 {
       }
     }
 
-    val colFamily = new TableColumn[DistributionPlan, String]("Family Name") {
-      cellValueFactory = { cd => StringProperty(cd.value.request.familyName) }
-      prefWidth = 150
-    }
-    val colSize = new TableColumn[DistributionPlan, String]("Size") {
-      cellValueFactory = { cd => StringProperty(cd.value.request.householdSize.toString) }
-      prefWidth = 55
-    }
-    val colUrgency = new TableColumn[DistributionPlan, String]("Urgency") {
-      cellValueFactory = { cd => StringProperty(cd.value.request.urgencyLevel.toString) }
-      prefWidth = 65
-    }
-    val colCategory = new TableColumn[DistributionPlan, String]("Category") {
-      cellValueFactory = { cd => StringProperty(cd.value.request.requestCategory) }
-      prefWidth = 170
-    }
-    val colDiet = new TableColumn[DistributionPlan, String]("Dietary") {
-      cellValueFactory = { cd => StringProperty(cd.value.request.dietaryRestriction) }
-      prefWidth = 100
-    }
-    val colPlanDate = new TableColumn[DistributionPlan, String]("Plan Date") {
-      cellValueFactory = { cd => StringProperty(cd.value.planDate.toString) }
-      prefWidth = 100
-    }
-    val colAllocated = new TableColumn[DistributionPlan, String]("Allocated Items") {
-      cellValueFactory = { cd =>
-        val plan = cd.value
-        val text =
-          if (plan.allocations.isEmpty) {
-            "*** NO MATCHING INVENTORY AVAILABLE ***"
-          } else {
-            plan.allocations.map { alloc =>
-              f"${alloc.allocatedQuantity}%.2f ${alloc.item.unitType} of ${alloc.item.itemName}"
-            }.mkString(" | ")
-          }
-        StringProperty(text)
-      }
-      prefWidth = 320
+    val colFamily   = strColumn[DistributionPlan]("Family Name", 150)(_.request.familyName)
+    val colSize     = strColumn[DistributionPlan]("Size", 55)(_.request.householdSize.toString)
+    val colUrgency  = strColumn[DistributionPlan]("Urgency", 65)(_.request.urgencyLevel.toString)
+    val colCategory = strColumn[DistributionPlan]("Category", 170)(_.request.requestCategory)
+    val colDiet     = strColumn[DistributionPlan]("Dietary", 100)(_.request.dietaryRestriction)
+    val colPlanDate = strColumn[DistributionPlan]("Plan Date", 100)(_.planDate.toString)
+    val colAllocated = strColumn[DistributionPlan]("Allocated Items", 320) { plan =>
+      if (plan.allocations.isEmpty) "*** NO MATCHING INVENTORY AVAILABLE ***"
+      else plan.allocations.map(alloc => f"${alloc.allocatedQuantity}%.2f ${alloc.item.unitType} of ${alloc.item.itemName}").mkString(" | ")
     }
 
     planTable.columns ++= Seq(colFamily, colSize, colUrgency, colCategory, colDiet, colPlanDate, colAllocated)
@@ -775,30 +659,12 @@ object PantryApp extends JFXApp3 {
       }
     }
 
-    val rColName = new TableColumn[PantryItem, String]("Item Name") {
-      cellValueFactory = { cd => StringProperty(cd.value.itemName) }
-      prefWidth = 170
-    }
-    val rColCategory = new TableColumn[PantryItem, String]("Category") {
-      cellValueFactory = { cd => StringProperty(cd.value.category) }
-      prefWidth = 175
-    }
-    val rColQty = new TableColumn[PantryItem, String]("Qty Remaining") {
-      cellValueFactory = { cd => StringProperty(f"${cd.value.quantity}%.2f") }
-      prefWidth = 120
-    }
-    val rColUnit = new TableColumn[PantryItem, String]("Unit") {
-      cellValueFactory = { cd => StringProperty(cd.value.unitType) }
-      prefWidth = 65
-    }
-    val rColStorage = new TableColumn[PantryItem, String]("Storage") {
-      cellValueFactory = { cd => StringProperty(cd.value.storageTemp) }
-      prefWidth = 110
-    }
-    val rColTag = new TableColumn[PantryItem, String]("Dietary Tag") {
-      cellValueFactory = { cd => StringProperty(cd.value.dietaryTag) }
-      prefWidth = 110
-    }
+    val rColName     = strColumn[PantryItem]("Item Name", 170)(_.itemName)
+    val rColCategory = strColumn[PantryItem]("Category", 175)(_.category)
+    val rColQty      = strColumn[PantryItem]("Qty Remaining", 120)(item => f"${item.quantity}%.2f")
+    val rColUnit     = strColumn[PantryItem]("Unit", 65)(_.unitType)
+    val rColStorage  = strColumn[PantryItem]("Storage", 110)(_.storageTemp)
+    val rColTag      = strColumn[PantryItem]("Dietary Tag", 110)(_.dietaryTag)
 
     remainingTable.columns ++= Seq(rColName, rColCategory, rColQty, rColUnit, rColStorage, rColTag)
 
