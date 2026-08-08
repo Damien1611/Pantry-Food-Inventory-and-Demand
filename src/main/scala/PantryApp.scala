@@ -272,8 +272,8 @@ object PantryApp extends JFXApp3 {
 
     val rColStatus = new TableColumn[PerishableFood, String]("Status") {
       cellValueFactory = { cd =>
-        val p = cd.value
-        val status = if (p.expirationDate.isBefore(todayDate)) "⚠ EXPIRED" else "⏳ EXPIRING SOON"
+        val item = cd.value
+        val status = if (item.expirationDate.isBefore(todayDate)) "⚠ EXPIRED" else "⏳ EXPIRING SOON"
         StringProperty(status)
       }
       prefWidth = 130
@@ -306,7 +306,7 @@ object PantryApp extends JFXApp3 {
       spacing = 10
       children = Seq(titleLbl, subtitleLbl, flowPane, riskItemsLabel, riskTable)
     }
-    VBox.setVgrow(riskTable, javafx.scene.layout.Priority.ALWAYS)
+    VBox.setVgrow(riskTable, Priority.Always)
     contentVBox
   }
 
@@ -317,7 +317,7 @@ object PantryApp extends JFXApp3 {
 
     // Table view to display items — grows to fill available vertical space
     val tableView = new TableView[PantryItem](inventoryBuffer)
-    VBox.setVgrow(tableView, javafx.scene.layout.Priority.ALWAYS)
+    VBox.setVgrow(tableView, Priority.Always)
 
     val colId = new TableColumn[PantryItem, String]("ID") {
       cellValueFactory = { cellData => StringProperty(cellData.value.itemId) }
@@ -531,7 +531,7 @@ object PantryApp extends JFXApp3 {
       spacing = 15
       children = Seq(titleLbl, subtitleLbl, tableView, formTitle, formGrid, errorLabel)
     }
-    VBox.setVgrow(tableView, javafx.scene.layout.Priority.ALWAYS)
+    VBox.setVgrow(tableView, Priority.Always)
 
     val scrollPane = new ScrollPane {
       content = contentBox
