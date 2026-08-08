@@ -10,6 +10,8 @@ I, the student named on the cover page, declare that:
 ## AI Tools Used
 - Gemini
 - Antigravity
+- Claude
+- Codex
 
 ---
 
