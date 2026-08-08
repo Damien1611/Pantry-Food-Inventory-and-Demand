@@ -96,7 +96,7 @@ object PantryApp extends JFXApp3 {
     val rootPane = new BorderPane()
 
     // Apply the premium stylesheet stylesheet
-    val sceneObj = new Scene(rootPane, 1000, 680)
+    val sceneObj = new Scene(rootPane, 1280, 820)
     sceneObj.stylesheets.add(getClass.getResource("/styles.css").toExternalForm)
 
     stage = new JFXApp3.PrimaryStage {

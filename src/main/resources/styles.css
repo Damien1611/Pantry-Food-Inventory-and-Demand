@@ -252,3 +252,70 @@
 .dialog-pane .button:focused {
     -fx-border-color: #38bdf8;
 }
+
+/* ── Scrollbar — high-contrast thumb so users can see and drag it ─────────── */
+
+/* Vertical scrollbar */
+.scroll-bar:vertical {
+    -fx-background-color: #0f172a;
+    -fx-pref-width: 12px;
+}
+.scroll-bar:vertical .track {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #334155;
+    -fx-border-width: 0 1px 0 0;
+    -fx-background-radius: 0;
+}
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #475569;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+}
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #38bdf8;
+}
+.scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #0284c7;
+}
+
+/* Horizontal scrollbar */
+.scroll-bar:horizontal {
+    -fx-background-color: #0f172a;
+    -fx-pref-height: 12px;
+}
+.scroll-bar:horizontal .track {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #334155;
+    -fx-border-width: 0 0 1px 0;
+    -fx-background-radius: 0;
+}
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #475569;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+}
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #38bdf8;
+}
+.scroll-bar:horizontal .thumb:pressed {
+    -fx-background-color: #0284c7;
+}
+
+/* Hide the increment/decrement arrow buttons — keeps the bar clean */
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}
+
+/* ScrollPane viewport background */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
