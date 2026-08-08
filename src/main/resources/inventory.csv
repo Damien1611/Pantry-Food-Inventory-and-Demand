@@ -1,9 +1,38 @@
-Perishable,ITEM-001,Fresh Salmon,15.5,Proteins,2026-08-01,Refrigerated,Halal,kg
-Perishable,ITEM-002,Fresh Milk,8.0,Beverages,2026-07-29,Refrigerated,Standard,units
-Perishable,ITEM-003,Strawberries,12.0,Fruits & Vegetables,2026-08-03,Refrigerated,Standard,kg
-Perishable,ITEM-004,Expired Yogurt,4.0,Beverages,2026-07-20,Refrigerated,Standard,units
-ShelfStable,ITEM-005,Brown Rice,100.0,Grains & Cereals,Dry storage,Standard,kg
-ShelfStable,ITEM-006,Canned Beans,50.0,Proteins,Dry storage,Vegetarian,units
-ShelfStable,ITEM-007,Gluten-Free Oats,30.0,Grains & Cereals,Dry storage,Gluten-Free,kg
-ShelfStable,ITEM-008,Infant Formula,20.0,Baby & Infant Items,Dry storage,Standard,units
-ShelfStable,ITEM-009,Hygiene Soap,40.0,Non-Food Essentials,Dry storage,Standard,units
+﻿Perishable,ITEM-001,Fresh Salmon,15.5,Proteins,2026-08-12,Refrigerated,Halal,kg
+Perishable,ITEM-002,Whole Milk,24.0,Beverages,2026-08-11,Refrigerated,Standard,units
+Perishable,ITEM-003,Strawberries,12.0,Fruits & Vegetables,2026-08-13,Refrigerated,Standard,kg
+Perishable,ITEM-004,Greek Yogurt,18.0,Beverages,2026-08-06,Refrigerated,Vegetarian,units
+Perishable,ITEM-005,Ground Beef,25.0,Proteins,2026-08-14,Refrigerated,Halal,kg
+Perishable,ITEM-006,Fresh Spinach,10.0,Fruits & Vegetables,2026-08-09,Refrigerated,Vegan,kg
+Perishable,ITEM-007,Tofu Blocks,15.0,Proteins,2026-08-15,Refrigerated,Vegan,units
+Perishable,ITEM-008,Cheddar Cheese,20.0,Beverages,2026-08-10,Refrigerated,Vegetarian,kg
+Perishable,ITEM-009,Chicken Breast,30.0,Proteins,2026-08-13,Frozen,Halal,kg
+Perishable,ITEM-010,Apples Bag,40.0,Fruits & Vegetables,2026-08-16,Refrigerated,Standard,units
+Perishable,ITEM-011,Fresh Broccoli,15.0,Fruits & Vegetables,2026-08-12,Refrigerated,Standard,kg
+Perishable,ITEM-012,Liquid Eggs,15.0,Proteins,2026-08-10,Refrigerated,Standard,units
+Perishable,ITEM-013,Fresh Milk,12.0,Beverages,2026-08-14,Refrigerated,Standard,units
+Perishable,ITEM-014,Lamb Chops,8.0,Proteins,2026-08-11,Frozen,Halal,kg
+Perishable,ITEM-015,Firm Tofu,10.0,Proteins,2026-08-09,Refrigerated,Gluten-Free,units
+Perishable,ITEM-016,Cherry Tomatoes,9.5,Fruits & Vegetables,2026-08-10,Refrigerated,Vegan,kg
+Perishable,ITEM-017,Orange Juice,20.0,Beverages,2026-08-15,Refrigerated,Standard,units
+Perishable,ITEM-018,Butter Blocks,12.0,Condiments & Cooking Essentials,2026-08-13,Refrigerated,Vegetarian,units
+ShelfStable,ITEM-019,Brown Rice,120.0,Grains & Cereals,Dry storage,Standard,kg
+ShelfStable,ITEM-020,Canned Red Beans,80.0,Proteins,Dry storage,Vegetarian,units
+ShelfStable,ITEM-021,Gluten-Free Oats,45.0,Grains & Cereals,Dry storage,Gluten-Free,kg
+ShelfStable,ITEM-022,Infant Formula,30.0,Baby & Infant Items,Dry storage,Standard,units
+ShelfStable,ITEM-023,Hygiene Bar Soap,60.0,Non-Food Essentials,Dry storage,Standard,units
+ShelfStable,ITEM-024,Whole Wheat Pasta,150.0,Grains & Cereals,Dry storage,Standard,kg
+ShelfStable,ITEM-025,Canned Tuna,100.0,Proteins,Dry storage,Standard,units
+ShelfStable,ITEM-026,Lentils,75.0,Proteins,Dry storage,Vegan,kg
+ShelfStable,ITEM-027,Cooking Olive Oil,40.0,Condiments & Cooking Essentials,Dry storage,Standard,units
+ShelfStable,ITEM-028,Table Salt,30.0,Condiments & Cooking Essentials,Dry storage,Standard,kg
+ShelfStable,ITEM-029,Baby Wipes,50.0,Baby & Infant Items,Dry storage,Standard,units
+ShelfStable,ITEM-030,Laundry Detergent,35.0,Non-Food Essentials,Dry storage,Standard,units
+ShelfStable,ITEM-031,Canned Peaches,60.0,Canned/Prepared Meals,Dry storage,Standard,units
+ShelfStable,ITEM-032,Spaghetti Sauce,50.0,Condiments & Cooking Essentials,Dry storage,Vegetarian,units
+ShelfStable,ITEM-033,Peanut Butter,40.0,Proteins,Dry storage,Vegetarian,units
+ShelfStable,ITEM-034,Instant Oats,90.0,Grains & Cereals,Dry storage,Standard,kg
+ShelfStable,ITEM-035,Quinoa,50.0,Grains & Cereals,Dry storage,Gluten-Free,kg
+ShelfStable,ITEM-036,Diapers Pack,45.0,Baby & Infant Items,Dry storage,Standard,units
+ShelfStable,ITEM-037,Canned Tomato Soup,80.0,Canned/Prepared Meals,Dry storage,Vegetarian,units
+ShelfStable,ITEM-038,Basmati Rice,110.0,Grains & Cereals,Dry storage,Standard,kg

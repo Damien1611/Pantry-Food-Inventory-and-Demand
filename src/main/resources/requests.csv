@@ -1,6 +1,20 @@
-REQ-301,Miller Family,4,Grains & Cereals,Standard,3
+﻿REQ-301,Miller Family,4,Grains & Cereals,Standard,3
 REQ-302,Al-Fayed Family,5,Proteins,Halal,5
 REQ-303,Suzuki Family,2,Fruits & Vegetables,Vegan,4
 REQ-304,Williams Family,3,Non-Food Essentials,Standard,2
 REQ-305,Rodriguez Family,6,Grains & Cereals,Gluten-Free,5
-REQ-36670,Wong Family,4,Grains & Cereals,Standard,4
+REQ-306,Wong Family,4,Proteins,Standard,4
+REQ-307,Hassan Family,7,Proteins,Halal,5
+REQ-308,Patel Family,3,Grains & Cereals,Vegetarian,3
+REQ-309,Nakamura Family,2,Fruits & Vegetables,Standard,2
+REQ-310,Garcia Family,5,Canned/Prepared Meals,Standard,4
+REQ-311,Kim Family,4,Beverages,Standard,3
+REQ-312,Singh Family,3,Proteins,Vegetarian,4
+REQ-313,Brown Family,6,Grains & Cereals,Standard,5
+REQ-314,Osman Family,5,Proteins,Halal,5
+REQ-315,Fernandez Family,2,Baby & Infant Items,Standard,3
+REQ-316,Chow Family,4,Grains & Cereals,Standard,2
+REQ-317,Ibrahim Family,6,Fruits & Vegetables,Halal,4
+REQ-318,Taylor Family,3,Non-Food Essentials,Standard,1
+REQ-319,Nguyen Family,4,Condiments & Cooking Essentials,Standard,3
+REQ-320,Anderson Family,5,Proteins,Gluten-Free,4
