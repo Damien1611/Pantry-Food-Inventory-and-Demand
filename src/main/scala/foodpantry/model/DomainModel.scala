@@ -1,4 +1,4 @@
-package foodpantry
+package foodpantry.model
 
 import java.time.LocalDate
 

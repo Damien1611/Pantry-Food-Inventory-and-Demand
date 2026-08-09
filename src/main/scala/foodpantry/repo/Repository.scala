@@ -1,4 +1,4 @@
-package foodpantry
+package foodpantry.repo
 
 import java.io.File
 import java.io.PrintWriter

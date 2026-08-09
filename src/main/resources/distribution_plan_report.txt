@@ -1,38 +1,121 @@
-DAILY DISTRIBUTION PLAN — 2026-08-04
+DAILY DISTRIBUTION PLAN — 2026-08-08
 ========================================================================
+Family: Hassan Family | Size: 7 | Urgency: 5
+  Category: Proteins | Dietary: Halal
+  -> 8.00 kg of Lamb Chops
+  -> 6.00 kg of Chicken Breast
+------------------------------------------------------------------------
 Family: Rodriguez Family | Size: 6 | Urgency: 5
   Category: Grains & Cereals | Dietary: Gluten-Free
+  -> 12.00 kg of Gluten-Free Oats
+------------------------------------------------------------------------
+Family: Brown Family | Size: 6 | Urgency: 5
+  Category: Grains & Cereals | Dietary: Standard
   -> 12.00 kg of Brown Rice
 ------------------------------------------------------------------------
 Family: Al-Fayed Family | Size: 5 | Urgency: 5
   Category: Proteins | Dietary: Halal
-  -> 10.00 kg of Fresh Salmon
+  -> 10.00 kg of Chicken Breast
+------------------------------------------------------------------------
+Family: Osman Family | Size: 5 | Urgency: 5
+  Category: Proteins | Dietary: Halal
+  -> 10.00 kg of Chicken Breast
+------------------------------------------------------------------------
+Family: Ibrahim Family | Size: 6 | Urgency: 4
+  Category: Fruits & Vegetables | Dietary: Halal
+  -> *** NO MATCHING INVENTORY AVAILABLE ***
+------------------------------------------------------------------------
+Family: Garcia Family | Size: 5 | Urgency: 4
+  Category: Canned/Prepared Meals | Dietary: Standard
+  -> 10.00 units of Canned Peaches
+------------------------------------------------------------------------
+Family: Anderson Family | Size: 5 | Urgency: 4
+  Category: Proteins | Dietary: Gluten-Free
+  -> 10.00 units of Firm Tofu
 ------------------------------------------------------------------------
 Family: Wong Family | Size: 4 | Urgency: 4
-  Category: Grains & Cereals | Dietary: Standard
-  -> 8.00 kg of Brown Rice
+  Category: Proteins | Dietary: Standard
+  -> 8.00 units of Liquid Eggs
+------------------------------------------------------------------------
+Family: Singh Family | Size: 3 | Urgency: 4
+  Category: Proteins | Dietary: Vegetarian
+  -> 6.00 units of Canned Red Beans
 ------------------------------------------------------------------------
 Family: Suzuki Family | Size: 2 | Urgency: 4
   Category: Fruits & Vegetables | Dietary: Vegan
-  -> 4.00 kg of Strawberries
+  -> 4.00 kg of Fresh Spinach
 ------------------------------------------------------------------------
 Family: Miller Family | Size: 4 | Urgency: 3
   Category: Grains & Cereals | Dietary: Standard
   -> 8.00 kg of Brown Rice
 ------------------------------------------------------------------------
+Family: Kim Family | Size: 4 | Urgency: 3
+  Category: Beverages | Dietary: Standard
+  -> 8.00 kg of Cheddar Cheese
+------------------------------------------------------------------------
+Family: Nguyen Family | Size: 4 | Urgency: 3
+  Category: Condiments & Cooking Essentials | Dietary: Standard
+  -> 8.00 units of Butter Blocks
+------------------------------------------------------------------------
+Family: Patel Family | Size: 3 | Urgency: 3
+  Category: Grains & Cereals | Dietary: Vegetarian
+  -> *** NO MATCHING INVENTORY AVAILABLE ***
+------------------------------------------------------------------------
+Family: Fernandez Family | Size: 2 | Urgency: 3
+  Category: Baby & Infant Items | Dietary: Standard
+  -> 4.00 units of Infant Formula
+------------------------------------------------------------------------
+Family: Chow Family | Size: 4 | Urgency: 2
+  Category: Grains & Cereals | Dietary: Standard
+  -> 8.00 kg of Brown Rice
+------------------------------------------------------------------------
 Family: Williams Family | Size: 3 | Urgency: 2
   Category: Non-Food Essentials | Dietary: Standard
-  -> 6.00 units of Hygiene Soap
+  -> 6.00 units of Hygiene Bar Soap
+------------------------------------------------------------------------
+Family: Nakamura Family | Size: 2 | Urgency: 2
+  Category: Fruits & Vegetables | Dietary: Standard
+  -> 4.00 kg of Fresh Spinach
+------------------------------------------------------------------------
+Family: Taylor Family | Size: 3 | Urgency: 1
+  Category: Non-Food Essentials | Dietary: Standard
+  -> 6.00 units of Hygiene Bar Soap
 ------------------------------------------------------------------------
 
 REMAINING INVENTORY AFTER ALLOCATION:
 ========================================================================
-  Fresh Salmon              | Proteins               | 5.50 kg
-  Fresh Milk                | Beverages              | 8.00 units
-  Strawberries              | Fruits & Vegetables    | 8.00 kg
-  Expired Yogurt            | Beverages              | 4.00 units
-  Brown Rice                | Grains & Cereals       | 72.00 kg
-  Canned Beans              | Proteins               | 50.00 units
-  Gluten-Free Oats          | Grains & Cereals       | 30.00 kg
-  Infant Formula            | Baby & Infant Items    | 20.00 units
-  Hygiene Soap              | Non-Food Essentials    | 34.00 units
+  Whole Milk                | Beverages              | 24.00 units
+  Strawberries              | Fruits & Vegetables    | 12.00 kg
+  Greek Yogurt              | Beverages              | 18.00 units
+  Ground Beef               | Proteins               | 25.00 kg
+  Fresh Spinach             | Fruits & Vegetables    | 2.00 kg
+  Tofu Blocks               | Proteins               | 15.00 units
+  Cheddar Cheese            | Beverages              | 12.00 kg
+  Chicken Breast            | Proteins               | 4.00 kg
+  Apples Bag                | Fruits & Vegetables    | 40.00 units
+  Fresh Broccoli            | Fruits & Vegetables    | 15.00 kg
+  Liquid Eggs               | Proteins               | 7.00 units
+  Fresh Milk                | Beverages              | 12.00 units
+  Cherry Tomatoes           | Fruits & Vegetables    | 9.50 kg
+  Orange Juice              | Beverages              | 20.00 units
+  Butter Blocks             | Condiments & Cooking Essentials | 4.00 units
+  Brown Rice                | Grains & Cereals       | 92.00 kg
+  Canned Red Beans          | Proteins               | 74.00 units
+  Gluten-Free Oats          | Grains & Cereals       | 33.00 kg
+  Infant Formula            | Baby & Infant Items    | 26.00 units
+  Hygiene Bar Soap          | Non-Food Essentials    | 48.00 units
+  Whole Wheat Pasta         | Grains & Cereals       | 150.00 kg
+  Canned Tuna               | Proteins               | 100.00 units
+  Lentils                   | Proteins               | 75.00 kg
+  Cooking Olive Oil         | Condiments & Cooking Essentials | 40.00 units
+  Table Salt                | Condiments & Cooking Essentials | 30.00 kg
+  Baby Wipes                | Baby & Infant Items    | 50.00 units
+  Laundry Detergent         | Non-Food Essentials    | 35.00 units
+  Canned Peaches            | Canned/Prepared Meals  | 50.00 units
+  Spaghetti Sauce           | Condiments & Cooking Essentials | 50.00 units
+  Peanut Butter             | Proteins               | 40.00 units
+  Instant Oats              | Grains & Cereals       | 90.00 kg
+  Quinoa                    | Grains & Cereals       | 50.00 kg
+  Diapers Pack              | Baby & Infant Items    | 45.00 units
+  Canned Tomato Soup        | Canned/Prepared Meals  | 80.00 units
+  Basmati Rice              | Grains & Cereals       | 110.00 kg

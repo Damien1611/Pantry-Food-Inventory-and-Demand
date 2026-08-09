@@ -1,5 +1,6 @@
-package foodpantry
+package foodpantry.service
 
+import foodpantry.model._
 import java.time.LocalDate
 
 // ai-assisted: #4
@@ -15,7 +16,7 @@ object MatchingEngine {
     inventory: List[PantryItem],
     requests: List[FamilyRequest]
   ): (List[DistributionPlan], List[PantryItem]) = {
-    
+
     // Sort requests by urgency (descending) and household size (descending)
     val sortedRequests = requests.sortBy { req =>
       (-req.urgencyLevel, -req.householdSize)
@@ -28,11 +29,11 @@ object MatchingEngine {
       accPlans: List[DistributionPlan]
     ): (List[DistributionPlan], List[PantryItem]) = {
       remainingRequests match {
-        case Nil => 
+        case Nil =>
           (accPlans.reverse, currentInventory)
         case currentRequest :: tailRequests =>
           val requestedCategory = currentRequest.requestCategory
-          val householdSizeVal = currentRequest.householdSize
+          val householdSizeVal  = currentRequest.householdSize
           // A family receives up to 2.0 units/kg of items per household size member
           val targetQuantity: Double = householdSizeVal.toDouble * 2.0
 
@@ -43,7 +44,7 @@ object MatchingEngine {
           val candidates = currentInventory.filter { item =>
             item.category.equalsIgnoreCase(requestedCategory) && item.quantity > 0.0 && (item match {
               case perishable: PerishableFood => !perishable.expirationDate.isBefore(today)
-              case _: ShelfStableFood => true
+              case _: ShelfStableFood         => true
             })
           }
 
@@ -53,7 +54,7 @@ object MatchingEngine {
           // - A Standard request can be satisfied by any item (any tag is fine).
           // - A non-Standard request can only be satisfied by an item whose dietaryTag matches exactly.
           val sortedCandidates = candidates.filter { item =>
-            val tag = currentRequest.dietaryRestriction.trim.toLowerCase
+            val tag     = currentRequest.dietaryRestriction.trim.toLowerCase
             val itemTag = item.dietaryTag.trim.toLowerCase
             if (tag == "standard") true
             else itemTag == tag
@@ -75,13 +76,13 @@ object MatchingEngine {
               (allocatedAcc.reverse, inventoryState)
             } else {
               val candidate = availCandidates.head
-              val takeQty = Math.min(needed, candidate.quantity)
+              val takeQty   = Math.min(needed, candidate.quantity)
               if (takeQty > 0.0) {
                 // Update candidate quantity in inventory state
                 val updatedInventoryState = inventoryState.map { item =>
                   if (item.itemId == candidate.itemId) {
                     item match {
-                      case perishable: PerishableFood => perishable.copy(quantity = perishable.quantity - takeQty)
+                      case perishable: PerishableFood   => perishable.copy(quantity = perishable.quantity - takeQty)
                       case shelfStable: ShelfStableFood => shelfStable.copy(quantity = shelfStable.quantity - takeQty)
                     }
                   } else {
@@ -109,9 +110,9 @@ object MatchingEngine {
           )
 
           val newPlan = DistributionPlan(
-            planId = s"PLAN-${currentRequest.requestId}",
-            planDate = LocalDate.now(),
-            request = currentRequest,
+            planId      = s"PLAN-${currentRequest.requestId}",
+            planDate    = LocalDate.now(),
+            request     = currentRequest,
             allocations = allocations
           )
 

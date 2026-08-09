@@ -1,5 +1,6 @@
-package foodpantry
+package foodpantry.repo
 
+import foodpantry.model._
 import java.time.LocalDate
 import scala.util.Try
 
@@ -38,7 +39,7 @@ object PerishableFoodSerializer extends RecordSerializer[PerishableFood] {
     if (parts.length == 9 && parts(0) == "Perishable") {
       for {
         quantityVal <- SerializationHelper.safeParseDouble(parts(3))
-        expiryDate <- SerializationHelper.safeParseDate(parts(5))
+        expiryDate  <- SerializationHelper.safeParseDate(parts(5))
       } yield PerishableFood(parts(1).trim, parts(2).trim, quantityVal, parts(4).trim, expiryDate, parts(6).trim, parts(7).trim, parts(8).trim)
     } else {
       scala.util.Failure(new IllegalArgumentException("Invalid format for PerishableFood"))
@@ -65,7 +66,7 @@ object ShelfStableFoodSerializer extends RecordSerializer[ShelfStableFood] {
 
 object PantryItemSerializer extends RecordSerializer[PantryItem] {
   override def serialize(item: PantryItem): String = item match {
-    case perishable: PerishableFood => PerishableFoodSerializer.serialize(perishable)
+    case perishable: PerishableFood   => PerishableFoodSerializer.serialize(perishable)
     case shelfStable: ShelfStableFood => ShelfStableFoodSerializer.serialize(shelfStable)
   }
 
@@ -73,9 +74,9 @@ object PantryItemSerializer extends RecordSerializer[PantryItem] {
     val parts = line.split(",")
     if (parts.length > 0) {
       parts(0) match {
-        case "Perishable" => PerishableFoodSerializer.deserialize(line).map(item => item: PantryItem)
+        case "Perishable"  => PerishableFoodSerializer.deserialize(line).map(item => item: PantryItem)
         case "ShelfStable" => ShelfStableFoodSerializer.deserialize(line).map(item => item: PantryItem)
-        case other => scala.util.Failure(new IllegalArgumentException(s"Unknown prefix: $other"))
+        case other         => scala.util.Failure(new IllegalArgumentException(s"Unknown prefix: $other"))
       }
     } else {
       scala.util.Failure(new IllegalArgumentException("Empty record line"))
@@ -92,7 +93,7 @@ object FamilyRequestSerializer extends RecordSerializer[FamilyRequest] {
     val parts = line.split(",")
     if (parts.length == 6) {
       for {
-        sizeVal <- SerializationHelper.safeParseInt(parts(2))
+        sizeVal   <- SerializationHelper.safeParseInt(parts(2))
         urgencyVal <- SerializationHelper.safeParseInt(parts(5))
       } yield FamilyRequest(parts(0).trim, parts(1).trim, sizeVal, parts(3).trim, parts(4).trim, urgencyVal)
     } else {
