@@ -42,3 +42,8 @@ This document records the daily progress and design decisions for the Food Pantr
 - **Details**: Refactored `PantryApp.scala` to eliminate repeated code patterns across all screens. Extracted `strColumn` to generate TableColumns in a single line (replacing 25 verbose definitions), `metricCard` to build Dashboard metric cards with custom highlight callbacks, `submitOnEnter` for form keyboard listeners, `confirmDeletion` for ScalaFX delete confirmation popups, and `styleSheetPath` for stylesheet URL resolution.
 - **Decisions**: Conducted a pure DRY refactor to achieve a net 134-line reduction (-229 deletions, +95 insertions) without modifying any UI appearance, user-visible text, or layout structures. Verified zero-warning compilation under `-Wunused` and verified complete brace/paren balance.
 
+## 2026-08-10
+- **Activity**: Codebase modularization and architectural package structure split.
+- **Details**: Created standard Scala sub-packages: `foodpantry.model`, `foodpantry.repo`, `foodpantry.service`, and `foodpantry.ui`. Relocated models, serialization classes, repositories, and matching engines into these packages. Extracted four screen modules (`DashboardScreen.scala`, `InventoryScreen.scala`, `RequestsScreen.scala`, `PlannerScreen.scala`) into the `ui` sub-package. Introduced `AppContext` to encapsulate shared reactive data buffers, status message properties, and modal confirmation bindings.
+- **Decisions**: Replaced the monolithic `PantryApp.scala` with a clean `Main.scala` shell that delegates navigation view creation to individual screen objects. Deleted original flat source files from root `src/main/scala` folder after verifying clean compile under `-Wunused:all`.
+

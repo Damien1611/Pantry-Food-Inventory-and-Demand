@@ -13,7 +13,7 @@ In this project, several advanced object-oriented programming concepts were appl
 ## Sub-point 2: Key Problems and Solutions
 During implementation, several design problems were encountered and solved:
 - **ScalaFX TableView Reassignment**: Initially, reassigning lists directly to `tableView.columns` resulted in a reassignment compilation error because columns are defined as read-only values. The solution was using the `++=` operator to add columns in-place, which conforms to the ScalaFX API.
-- **Unused Warning with Event Handlers**: Compiling with the `-Wunused:all` compiler flag flagged the ScalaFX `handle` implicit handler wrappers as warnings in Scala 3 due to old-style implicit parameter definitions inside the external dependency jar. To achieve zero warnings, a custom `handle` method was authored locally in `PantryApp.scala` that takes a by-name block and maps to a standard JavaFX EventHandler, shadowing the library default and silencing warnings cleanly.
+- **Unused Warning with Event Handlers**: Compiling with the `-Wunused:all` compiler flag flagged the ScalaFX `handle` implicit handler wrappers as warnings in Scala 3 due to old-style implicit parameter definitions inside the external dependency jar. To achieve zero warnings, a custom `handle` method was authored locally in `AppContext.scala` (originally in `PantryApp.scala` before modularization) that takes a by-name block and maps to a standard JavaFX EventHandler, shadowing the library default and silencing warnings cleanly.
 
 ## Sub-point 3: Strengths and Weaknesses of the Design
 The current implementation has distinct characteristics:
