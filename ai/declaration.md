@@ -22,4 +22,4 @@ I, the student named on the cover page, declare that:
 **Project Title**: Food Pantry Inventory & Demand Optimizer
 
 **Student Signature**: Damien  
-**Date**: 2026-07-28
+**Date**: 2026-08-10

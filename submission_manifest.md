@@ -7,20 +7,20 @@
 **Date submitted:** 2026-08-14
 
 ## File checklist (tick every box)
-- [ ] README.md — setup, run, project summary, AI summary
-- [ ] build.sbt — Scala 3.3+, ScalaFX 21
-- [ ] project/build.properties — sbt version
-- [ ] src/main/scala/ — all production source files
-- [ ] src/main/resources/ — sample data / assets (if any)
+- [x] README.md — setup, run, project summary, AI summary
+- [x] build.sbt — Scala 3.3+, ScalaFX 21
+- [x] project/build.properties — sbt version
+- [x] src/main/scala/ — all production source files
+- [x] src/main/resources/ — sample data / assets (if any)
 - [ ] src/test/scala/ — unit tests (optional)
-- [ ] docs/UML.png (or .pdf) — class diagram with ≥5 classes
-- [ ] docs/reflection.md — personal reflection (~350-700 words)
-- [ ] docs/ai_reflection.md — AI reflection (300-500 words)
-- [ ] docs/dev_log.md — ≥5 dated entries
-- [ ] docs/citations.md — third-party citations
+- [x] docs/UML.png (or .pdf) — class diagram with ≥5 classes
+- [x] docs/reflection.md — personal reflection (~350-700 words)
+- [x] docs/ai_reflection.md — AI reflection (300-500 words)
+- [x] docs/dev_log.md — ≥5 dated entries
+- [x] docs/citations.md — third-party citations
 - [ ] docs/demo.mp4 — ≤5 min walkthrough
-- [ ] ai/interaction_log.md — Template 2 (≥10 entries)
-- [ ] ai/declaration.md — Template 3 (signed)
+- [x] ai/interaction_log.md — Template 2 (≥10 entries)
+- [x] ai/declaration.md — Template 3 (signed)
 
 ## Self-reported metrics (will be auto-verified)
 | Metric | Required | Your value |
@@ -40,4 +40,4 @@ are entirely my own work, prepared under the Tier C AI-Integrated
 policy.
 
 Signed: Damien  
-Date: 2026-07-28
+Date: 2026-08-10

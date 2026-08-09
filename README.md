@@ -70,15 +70,28 @@ Project_23080633/
 ├── src/
 │   ├── main/
 │   │   ├── scala/             # Production source code
-│   │   │   ├── DomainModel.scala
-│   │   │   ├── Serialization.scala
-│   │   │   ├── Repository.scala
-│   │   │   ├── MatchingEngine.scala
-│   │   │   └── PantryApp.scala
+│   │   │   └── foodpantry/
+│   │   │       ├── Main.scala          # App entry point & shell navigation layout
+│   │   │       ├── model/
+│   │   │       │   └── DomainModel.scala # Sealed trait, subclasses, case classes
+│   │   │       ├── repo/
+│   │   │       │   ├── Repository.scala    # Generic file DataRepository[T]
+│   │   │       │   └── Serialization.scala # CSV Serialization & helpers
+│   │   │       ├── service/
+│   │   │       │   └── MatchingEngine.scala # Waste-minimization matching algorithm
+│   │   │       └── ui/
+│   │   │           ├── AppContext.scala    # Reactive state & helper context
+│   │   │           ├── UIHelpers.scala     # DRY visual builders & input helpers
+│   │   │           ├── DashboardScreen.scala # Screen 1: Dashboard
+│   │   │           ├── InventoryScreen.scala # Screen 2: Inventory
+│   │   │           ├── RequestsScreen.scala  # Screen 3: Family Requests
+│   │   │           └── PlannerScreen.scala   # Screen 4: Distribution Planner
 │   │   └── resources/         # Sample database and styles
 │   │       ├── inventory.csv
 │   │       ├── requests.csv
 │   │       └── styles.css
+│   └── test/
+│       └── scala/             # Test directory (empty / optional)
 ├── docs/
 │   ├── UML.png                # Architecture Class Diagram
 │   ├── reflection.md          # Personal Reflection on OOP (350-700 words)
@@ -95,6 +108,10 @@ Project_23080633/
 
 ## AI-Use & Citations Summary
 
-- **AI Tools Used**: Gemini. Used for initial model scaffolding, CSS stylesheet design, and resolving ScalaFX event handling conventions.
+- **AI Tools Used**:
+  - **Gemini**: Used for initial model scaffolding, safe CSV serialization, and resolving ScalaFX property bindings.
+  - **Claude**: Developed the waste-minimization matching algorithm inside `MatchingEngine.scala`.
+  - **Codex**: Generated the core CSS stylesheet variables for the Slate-dark theme dashboard.
+  - **Antigravity**: Conducted modular package restructuring, DRY code extraction of UI helpers, error/warning debugging, and sample database generation.
 - **Citations**: Detailed library links and license texts (BSD 3-Clause, GPL) are located in [citations.md](file:///c:/PRG2104/Project_23080633/docs/citations.md).
 - **Walkthrough Video**: The `docs/demo.mp4` file is currently a placeholder. Please record a brief screen walkthrough of the running application on your device demonstrating the four features, name it `demo.mp4`, and place it in the `docs/` folder to complete the submission files before packaging the final ZIP.
