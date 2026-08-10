@@ -87,6 +87,7 @@ Project_23080633/
 │   │   │           ├── RequestsScreen.scala  # Screen 3: Family Requests
 │   │   │           └── PlannerScreen.scala   # Screen 4: Distribution Planner
 │   │   └── resources/         # Sample database and styles
+│   │       ├── distribution_plan_report.txt
 │   │       ├── inventory.csv
 │   │       ├── requests.csv
 │   │       └── styles.css
