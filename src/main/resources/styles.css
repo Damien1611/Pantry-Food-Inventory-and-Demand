@@ -107,6 +107,19 @@
     -fx-text-fill: white;
 }
 
+/* Date picker popup calendar — month/year header contrast fix */
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: #334155; /* Slate 700 */
+}
+.date-picker-popup > .month-year-pane .label {
+    -fx-text-fill: #0f172a; /* dark navy, was white — now readable */
+    -fx-font-weight: bold;
+}
+.date-picker-popup > .month-year-pane .spinner .button > .left-arrow,
+.date-picker-popup > .month-year-pane .spinner .button > .right-arrow {
+    -fx-background-color: #0f172a;
+}
+
 /* Custom Table styling */
 .table-view {
     -fx-background-color: #1e293b;
