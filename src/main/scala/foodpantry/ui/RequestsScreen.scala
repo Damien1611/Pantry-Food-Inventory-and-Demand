@@ -7,13 +7,16 @@ import scalafx.geometry.Insets
 import scalafx.scene.control._
 import scalafx.scene.layout._
 
-// SCREEN 3: Family Requests Logging Screen
+// ── SCREEN 3: Family Requests Logging Screen ──────────────────────────────────
+// Allows coordinators to log new household demand requests and delete them.
 object RequestsScreen extends UIHelpers {
 
   def create(ctx: AppContext): Pane = {
+    // ── Screen Headers ───────────────────────────────────────────────────────
     val titleLbl    = new Label("Family Request Management") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Log and track requests from households in need.") { styleClass.add("header-subtitle") }
 
+    // ── Family Requests Table ────────────────────────────────────────────────
     // Table view to display family requests
     val tableView = new TableView[FamilyRequest](ctx.requestsBuffer) {
       prefHeight = 250
@@ -28,7 +31,7 @@ object RequestsScreen extends UIHelpers {
 
     tableView.columns ++= Seq(colId, colName, colSize, colCategory, colDiet, colUrgency)
 
-    // Form
+    // ── Form Input Fields ────────────────────────────────────────────────────
     val formTitle = new Label("Log New Family Request") {
       style = "-fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-font-size: 14px;"
     }
@@ -43,6 +46,7 @@ object RequestsScreen extends UIHelpers {
       style = "-fx-text-fill: #ef4444; -fx-font-weight: bold;"
     }
 
+    // ── Form Input Validation & Submission ────────────────────────────────────
     // Input Validation (S1-18: Graceful input validation)
     def validateAndSubmit(): Unit = {
       val nameText = nameField.text.value.trim
@@ -67,7 +71,7 @@ object RequestsScreen extends UIHelpers {
       }
     }
 
-    // Save Helper
+    // ── Save Function ────────────────────────────────────────────────────────
     def saveRequest(req: FamilyRequest): Unit = {
       ctx.requestsRepo.add(req) match {
         case Success(_) =>
@@ -81,13 +85,16 @@ object RequestsScreen extends UIHelpers {
       }
     }
 
+    // Bind Enter keyboard shortcut for text fields
     submitOnEnter(nameField, sizeField)(validateAndSubmit())
 
+    // ── Primary Action Buttons ───────────────────────────────────────────────
     val btnSave = new Button("Submit Request") {
       styleClass.add("btn-primary")
       onAction = ctx.handle { validateAndSubmit() }
     }
 
+    // Delete selected request button with popup confirmation dialog
     val btnDelete = new Button("Delete Selected Request") {
       styleClass.add("btn-danger")
       onAction = ctx.handle {
@@ -108,6 +115,7 @@ object RequestsScreen extends UIHelpers {
       }
     }
 
+    // ── Layout Grid Configuration ─────────────────────────────────────────────
     val formGrid = new GridPane {
       hgap    = 10
       vgap    = 10
@@ -133,6 +141,7 @@ object RequestsScreen extends UIHelpers {
       add(btnDelete, 1, 5)
     }
 
+    // ── Screen VBox Assembly ─────────────────────────────────────────────────
     new VBox {
       padding  = Insets(24)
       spacing  = 15

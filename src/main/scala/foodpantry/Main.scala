@@ -14,8 +14,13 @@ import scalafx.beans.property.StringProperty
 
 // ai-assisted: #5
 // why: Implement the primary ScalaFX JFXApp3 window (S2-1), layouts (S2-5), control bindings (S2-7) and event handling (S2-6) without direct javafx imports.
+
+// ── Application Main Entry Point & Main Navigation ───────────────────────────
+// Set up the main JFXApp3 stage, initializes repositories, loads CSVs,
+// and configures the sidebar layout structure and navigation.
 object Main extends JFXApp3 {
 
+  // ── Persistence Paths & Stylesheet ─────────────────────────────────────────
   // Paths to persistence data files
   private val inventoryFile: String = "src/main/resources/inventory.csv"
   private val requestsFile: String  = "src/main/resources/requests.csv"
@@ -23,10 +28,11 @@ object Main extends JFXApp3 {
   // Stylesheet resource path
   private val styleSheetPath: String = getClass.getResource("/styles.css").toExternalForm
 
-  // Repositories
+  // ── Database Repositories ──────────────────────────────────────────────────
   private val inventoryRepo: DataRepository[PantryItem]    = new DataRepository[PantryItem](inventoryFile, PantryItemSerializer)
   private val requestsRepo: DataRepository[FamilyRequest]  = new DataRepository[FamilyRequest](requestsFile, FamilyRequestSerializer)
 
+  // ── Reactive State Buffers ─────────────────────────────────────────────────
   // Reactive state buffers bound to UI controls
   private val inventoryBuffer = ObservableBuffer[PantryItem]()
   private val requestsBuffer  = ObservableBuffer[FamilyRequest]()
@@ -36,6 +42,7 @@ object Main extends JFXApp3 {
   // Reactive status message for the bottom status bar
   private val statusMessage = StringProperty("Application loaded. Ready.")
 
+  // ── Stage Setup & Navigation Layout ────────────────────────────────────────
   override def start(): Unit = {
     // Load initial data
     inventoryRepo.loadAll().foreach { items => inventoryBuffer.addAll(items) }
@@ -66,7 +73,7 @@ object Main extends JFXApp3 {
       stage           = stage
     )
 
-    // Bottom Status Bar
+    // ── Bottom Status Bar ────────────────────────────────────────────────────
     val statusBar = new HBox {
       alignment = Pos.CenterLeft
       padding   = Insets(8, 12, 8, 12)
@@ -80,7 +87,7 @@ object Main extends JFXApp3 {
     }
     rootPane.bottom = statusBar
 
-    // Left Navigation Sidebar
+    // ── Left Navigation Sidebar ──────────────────────────────────────────────
     val navTitle = new Label {
       text = "FOOD PANTRY"
       styleClass.add("sidebar-title")
@@ -98,7 +105,7 @@ object Main extends JFXApp3 {
     }
     rootPane.left = sidebar
 
-    // Navigation switching function
+    // ── Navigation Action Dispatcher ─────────────────────────────────────────
     def setScreen(screenPane: Pane, activeButton: Button): Unit = {
       rootPane.center = screenPane
       Seq(btnDashboard, btnInventory, btnRequests, btnPlanner).foreach { button =>
@@ -107,7 +114,7 @@ object Main extends JFXApp3 {
       activeButton.styleClass.add("nav-button-active")
     }
 
-    // Event handlers for navigation switching
+    // ── Sidebar Click Event Handlers ─────────────────────────────────────────
     btnDashboard.onAction = ctx.handle {
       setScreen(DashboardScreen.create(ctx), btnDashboard)
     }

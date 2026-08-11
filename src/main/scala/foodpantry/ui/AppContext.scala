@@ -9,6 +9,7 @@ import scalafx.Includes._
 import scalafx.scene.control.{Alert, ButtonType}
 import scala.util.{Success, Failure}
 
+// ── Application Context State Container ──────────────────────────────────────
 // AppContext carries all shared mutable state and helper methods.
 // Passed into each screen's create() method so screens can read/write shared data
 // without the screens needing to be inner members of Main.
@@ -24,7 +25,9 @@ class AppContext(
   val stage:           JFXApp3.PrimaryStage
 ) {
 
-  // Reload both repos into their buffers
+  // ── Data Reloading ─────────────────────────────────────────────────────────
+  // Reloads both repositories from their CSV files into the active ObservableBuffers.
+  // Updates the bottom status bar with error messages if a file read fails.
   def reloadData(): Unit = {
     inventoryRepo.loadAll() match {
       case Success(itemsList) =>
@@ -43,7 +46,9 @@ class AppContext(
     }
   }
 
-  // Helper for displaying delete confirmation dialogs
+  // ── Confirmation Modal Dialog ──────────────────────────────────────────────
+  // Helper for displaying styled delete confirmation alerts to the user.
+  // Returns true if the user clicks OK, false otherwise.
   def confirmDeletion(headerTextVal: String, contentTextVal: String): Boolean = {
     val alert = new Alert(Alert.AlertType.Confirmation) {
       initOwner(stage)
@@ -56,6 +61,7 @@ class AppContext(
     result.contains(ButtonType.OK)
   }
 
+  // ── Custom EventHandler Shadowing ──────────────────────────────────────────
   // ai-assisted: #8
   // why: Authored custom local handle method to shadow library implicits and satisfy S2-6 (onAction = handle) without triggering Scala 3 compiler warnings.
   def handle(handler: => Unit): javafx.event.EventHandler[javafx.event.ActionEvent] = {

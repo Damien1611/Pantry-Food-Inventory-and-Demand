@@ -9,13 +9,16 @@ import scalafx.collections.ObservableBuffer
 import scalafx.scene.control._
 import scalafx.scene.layout._
 
-// SCREEN 2: Inventory Logging Screen
+// ── SCREEN 2: Inventory Logging Screen ────────────────────────────────────────
+// Provides features to log, view, and delete pantry items in the database.
 object InventoryScreen extends UIHelpers {
 
   def create(ctx: AppContext): Pane = {
+    // ── Screen Headers ───────────────────────────────────────────────────────
     val titleLbl    = new Label("Inventory Management") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Log and manage food pantry items. Green color tags denote perishable food items.") { styleClass.add("header-subtitle") }
 
+    // ── Inventory Table ──────────────────────────────────────────────────────
     // Table view to display items — grows to fill available vertical space
     val tableView = new TableView[PantryItem](ctx.inventoryBuffer)
     VBox.setVgrow(tableView, Priority.Always)
@@ -29,7 +32,7 @@ object InventoryScreen extends UIHelpers {
 
     tableView.columns ++= Seq(colId, colName, colQty, colUnit, colCategory, colDetails)
 
-    // Form containers to log items
+    // ── Form Input Fields ────────────────────────────────────────────────────
     val formTitle = new Label("Log New Donated Food Item") {
       style = "-fx-text-fill: #f8fafc; -fx-font-weight: bold; -fx-font-size: 14px;"
     }
@@ -45,7 +48,8 @@ object InventoryScreen extends UIHelpers {
     val storageCombo = new ComboBox[String](Seq("Refrigerated", "Frozen")) { value = "Refrigerated" }
     val expiryPicker = new DatePicker { promptText = "Select Expiration Date" }
 
-    // Toggle fields based on type combo change
+    // ── Form Option Toggling ─────────────────────────────────────────────────
+    // Toggle fields based on type combo change (hides expiration picker for shelf-stable food)
     typeCombo.onAction = ctx.handle {
       val isPerishable = typeCombo.value.value == "Perishable"
       expiryPicker.visible = isPerishable
@@ -63,6 +67,7 @@ object InventoryScreen extends UIHelpers {
       style = "-fx-text-fill: #ef4444; -fx-font-weight: bold;"
     }
 
+    // ── ID Generator ─────────────────────────────────────────────────────────
     // Generate the next sequential item ID by scanning the current inventory.
     def nextItemId(): String = {
       val existingNumbers = ctx.inventoryBuffer.toList.flatMap { item =>
@@ -74,6 +79,7 @@ object InventoryScreen extends UIHelpers {
       f"ITEM-$nextNumber%03d"
     }
 
+    // ── Form Input Validation & Submission ────────────────────────────────────
     // Input Validation (S1-18: Graceful input validation)
     def validateAndSubmit(): Unit = {
       val nameText     = nameField.text.value.trim
@@ -129,7 +135,7 @@ object InventoryScreen extends UIHelpers {
       }
     }
 
-    // Save helper
+    // ── Save Function ────────────────────────────────────────────────────────
     def saveItem(item: PantryItem): Unit = {
       ctx.inventoryRepo.add(item) match {
         case Success(_) =>
@@ -144,14 +150,16 @@ object InventoryScreen extends UIHelpers {
       }
     }
 
+    // Bind Enter keyboard shortcut for text fields
     submitOnEnter(nameField, qtyField)(validateAndSubmit())
 
+    // ── Primary Action Buttons ───────────────────────────────────────────────
     val btnSave = new Button("Add Inventory Item") {
       styleClass.add("btn-primary")
       onAction = ctx.handle { validateAndSubmit() }
     }
 
-    // Table delete action button
+    // Table delete action button with popup confirmation dialog
     val btnDelete = new Button("Delete Selected Item") {
       styleClass.add("btn-danger")
       onAction = ctx.handle {
@@ -172,6 +180,7 @@ object InventoryScreen extends UIHelpers {
       }
     }
 
+    // ── Layout Grid Configuration ─────────────────────────────────────────────
     val formGrid = new GridPane {
       hgap    = 10
       vgap    = 10
@@ -204,6 +213,7 @@ object InventoryScreen extends UIHelpers {
       add(btnDelete, 1, 7)
     }
 
+    // ── Screen VBox Assembly ─────────────────────────────────────────────────
     val contentBox = new VBox {
       padding  = Insets(24)
       spacing  = 15

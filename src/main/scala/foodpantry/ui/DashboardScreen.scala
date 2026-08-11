@@ -7,13 +7,16 @@ import scalafx.geometry.Insets
 import scalafx.scene.control._
 import scalafx.scene.layout._
 
-// SCREEN 1: Dashboard Overview Screen
+// ── SCREEN 1: Dashboard Overview Screen ──────────────────────────────────────
+// Computes inventory aggregate statistics and displays expiration alert indicators.
 object DashboardScreen extends UIHelpers {
 
   def create(ctx: AppContext): Pane = {
+    // ── Screen Headers ───────────────────────────────────────────────────────
     val titleLbl    = new Label("Dashboard Overview") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Real-time summary of inventory, urgent demands, and waste risks.") { styleClass.add("header-subtitle") }
 
+    // ── Stat Computations ────────────────────────────────────────────────────
     // Summary statistics computations (separated by unit types: kg vs units)
     val totalWeight = ctx.inventoryBuffer.filter(_.unitType == "kg").map(_.quantity).sum
     val totalUnits  = ctx.inventoryBuffer.filter(_.unitType == "units").map(_.quantity).sum
@@ -32,7 +35,7 @@ object DashboardScreen extends UIHelpers {
     val activeRequestsCount      = ctx.requestsBuffer.size
     val highlyUrgentRequestsCount = ctx.requestsBuffer.count(req => req.urgencyLevel >= 4)
 
-    // Layout cards for metrics
+    // ── Visual Metric Cards ──────────────────────────────────────────────────
     val cardWeightStock  = metricCard("Weight-Based Stock", f"$totalWeight%.2f kg")()
     val cardUnitStock    = metricCard("Count-Based Stock", f"$totalUnits%.0f units")()
     val cardExpiringSoon = metricCard("Expiring Soon (<7 Days)", f"$expiringCount%.1f items") { lbl =>
@@ -53,6 +56,7 @@ object DashboardScreen extends UIHelpers {
       children = Seq(cardWeightStock, cardUnitStock, cardExpiringSoon, cardExpired, cardRequests, cardUrgent)
     }
 
+    // ── Expiry Alert Table ───────────────────────────────────────────────────
     // Table of high-risk items (expired or expiring soon)
     val riskItemsLabel = new Label("High-Risk Perishable Food Items") {
       style = "-fx-text-fill: #f8fafc; -fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 10px 0 5px 0;"
@@ -78,6 +82,7 @@ object DashboardScreen extends UIHelpers {
 
     riskTable.columns ++= Seq(rColStatus, rColName, rColCategory, rColQty, rColExpiry, rColStorage)
 
+    // ── Layout Assembly ──────────────────────────────────────────────────────
     val contentVBox = new VBox {
       padding  = Insets(24)
       spacing  = 10

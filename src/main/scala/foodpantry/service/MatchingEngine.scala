@@ -5,6 +5,10 @@ import java.time.LocalDate
 
 // ai-assisted: #4
 // why: Implement the allocation algorithm using recursion to guarantee immutability (S1-11) and optimize waste-minimisation based on food expiration date.
+
+// ── Optimization Matching Engine ─────────────────────────────────────────────
+// MatchingEngine matches family requests to available inventory items.
+// It uses a greedy allocation approach implemented tail-recursively.
 object MatchingEngine {
 
   // S1-13: DRY - Extract matching and sorting logic into a reusable logic component.
@@ -17,12 +21,16 @@ object MatchingEngine {
     requests: List[FamilyRequest]
   ): (List[DistributionPlan], List[PantryItem]) = {
 
-    // Sort requests by urgency (descending) and household size (descending)
+    // ── Request Sorting ──────────────────────────────────────────────────────
+    // Sort requests by urgency (descending) and household size (descending).
+    // Urgent, larger families are processed first to ensure critical needs are met.
     val sortedRequests = requests.sortBy { req =>
       (-req.urgencyLevel, -req.householdSize)
     }
 
+    // ── Recursive Allocation Loop ─────────────────────────────────────────────
     // S1-11: Immutability - We use recursion instead of mutable state loops or mutable arrays.
+    // Navigates through each sorted family request one by one.
     def allocateRecursive(
       remainingRequests: List[FamilyRequest],
       currentInventory: List[PantryItem],
@@ -38,6 +46,8 @@ object MatchingEngine {
           val targetQuantity: Double = householdSizeVal.toDouble * 2.0
 
           val today = LocalDate.now()
+          
+          // ── Inventory Filtering ──────────────────────────────────────────────
           // Filter candidate items in current inventory:
           // 1. Matches category and quantity > 0.0
           // 2. Exclude already-expired PerishableFood items (expirationDate is before today)
@@ -48,6 +58,7 @@ object MatchingEngine {
             })
           }
 
+          // ── Dietary and Expiry Sorting ───────────────────────────────────────
           // Sort candidates:
           // If PerishableFood, sort by expiration date ascending (earliest first, to minimize waste)
           // Also filter food items by dietary restriction compatibility:
@@ -65,7 +76,8 @@ object MatchingEngine {
               Long.MaxValue // Shelf-stable items do not expire and are checked last
           }
 
-          // Greedily allocate from sorted candidates
+          // ── Candidate Allocation ─────────────────────────────────────────────
+          // Greedily allocate from sorted candidates up to the needed amount
           def allocateFromCandidates(
             needed: Double,
             availCandidates: List[PantryItem],
@@ -102,6 +114,8 @@ object MatchingEngine {
             }
           }
 
+          // ── Plan Assembly ────────────────────────────────────────────────────
+          // Run the greedy allocation and build the DistributionPlan.
           val (allocations, updatedInventory) = allocateFromCandidates(
             targetQuantity,
             sortedCandidates,
