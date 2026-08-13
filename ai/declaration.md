@@ -17,7 +17,7 @@ I, the student named on the cover page, declare that:
 
 **Student Name**: Damien Yee Jin Yang  
 **Student ID**: 23080633  
-**Programme**: BSC (HONS) COMPUTER SCIENCE  
+**Programme**: BSc (Hons) in Computer Science  
 **Cohort**: 2026/02  
 **Project Title**: Food Pantry Inventory & Demand Optimizer  
 

@@ -99,7 +99,7 @@ Project_23080633/
 │   ├── ai_reflection.md       # AI Integration Reflection (300-500 words)
 │   ├── dev_log.md             # Developer Log (5 dated entries)
 │   ├── citations.md           # Citations & Licenses (ScalaFX, JavaFX)
-│   └── demo.mp4               # Application walkthrough video placeholder
+│   └── demo.mp4               # Application walkthrough video (≤5 min)
 └── ai/
     ├── interaction_log.md     # AI Prompt & Refinement Log (10 entries)
     └── declaration.md         # AI Use Declaration (Signed)
@@ -115,4 +115,4 @@ Project_23080633/
   - **Codex**: Generated the core CSS stylesheet variables for the Slate-dark theme dashboard.
   - **Antigravity**: Conducted modular package restructuring, DRY code extraction of UI helpers, error/warning debugging, and sample database generation.
 - **Citations**: Detailed library links and license texts (BSD 3-Clause, GPL) are located in [citations.md](file:///c:/PRG2104/Project_23080633/docs/citations.md).
-- **Walkthrough Video**: The `docs/demo.mp4` file is currently a placeholder. Please record a brief screen walkthrough of the running application on your device demonstrating the four features, name it `demo.mp4`, and place it in the `docs/` folder to complete the submission files before packaging the final ZIP.
+- **Walkthrough Video**: The `docs/demo.mp4` file is a video walkthrough (under 5 minutes) demonstrating all four features (Dashboard, Inventory, Family Requests, and Distribution Planner) of the application end-to-end.
