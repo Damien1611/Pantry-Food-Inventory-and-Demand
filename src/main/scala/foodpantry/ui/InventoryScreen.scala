@@ -14,6 +14,7 @@ import scalafx.scene.layout._
 object InventoryScreen extends UIHelpers {
 
   def create(ctx: AppContext): Pane = {
+    import ctx.handle
     // ── Screen Headers ───────────────────────────────────────────────────────
     val titleLbl    = new Label("Inventory Management") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Log and manage food pantry items. Green color tags denote perishable food items.") { styleClass.add("header-subtitle") }
@@ -50,7 +51,7 @@ object InventoryScreen extends UIHelpers {
 
     // ── Form Option Toggling ─────────────────────────────────────────────────
     // Toggle fields based on type combo change (hides expiration picker for shelf-stable food)
-    typeCombo.onAction = ctx.handle {
+    typeCombo.onAction = handle {
       val isPerishable = typeCombo.value.value == "Perishable"
       expiryPicker.visible = isPerishable
       expiryPicker.managed = isPerishable
@@ -156,13 +157,13 @@ object InventoryScreen extends UIHelpers {
     // ── Primary Action Buttons ───────────────────────────────────────────────
     val btnSave = new Button("Add Inventory Item") {
       styleClass.add("btn-primary")
-      onAction = ctx.handle { validateAndSubmit() }
+      onAction = handle { validateAndSubmit() }
     }
 
     // Table delete action button with popup confirmation dialog
     val btnDelete = new Button("Delete Selected Item") {
       styleClass.add("btn-danger")
-      onAction = ctx.handle {
+      onAction = handle {
         val selectedItem = tableView.selectionModel.value.getSelectedItem
         if (selectedItem != null) {
           if (ctx.confirmDeletion("Delete Inventory Item", s"Are you sure you want to delete ${selectedItem.itemName}?")) {

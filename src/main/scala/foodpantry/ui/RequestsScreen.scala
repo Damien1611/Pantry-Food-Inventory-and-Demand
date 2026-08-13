@@ -12,6 +12,7 @@ import scalafx.scene.layout._
 object RequestsScreen extends UIHelpers {
 
   def create(ctx: AppContext): Pane = {
+    import ctx.handle
     // ── Screen Headers ───────────────────────────────────────────────────────
     val titleLbl    = new Label("Family Request Management") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Log and track requests from households in need.") { styleClass.add("header-subtitle") }
@@ -63,7 +64,7 @@ object RequestsScreen extends UIHelpers {
           case Success(sizeVal) if sizeVal <= 0 =>
             errorLabel.text = "Error: Household size must be greater than zero."
           case Success(sizeVal) =>
-            val urgencyVal    = urgencyCombo.value.value.toInt
+            val urgencyVal    = SerializationHelper.safeParseInt(urgencyCombo.value.value).getOrElse(3)
             val newRequestId  = s"REQ-${System.currentTimeMillis() % 100000}"
             val newRequest    = FamilyRequest(newRequestId, nameText, sizeVal, categoryCombo.value.value, dietaryCombo.value.value, urgencyVal)
             saveRequest(newRequest)
@@ -91,13 +92,13 @@ object RequestsScreen extends UIHelpers {
     // ── Primary Action Buttons ───────────────────────────────────────────────
     val btnSave = new Button("Submit Request") {
       styleClass.add("btn-primary")
-      onAction = ctx.handle { validateAndSubmit() }
+      onAction = handle { validateAndSubmit() }
     }
 
     // Delete selected request button with popup confirmation dialog
     val btnDelete = new Button("Delete Selected Request") {
       styleClass.add("btn-danger")
-      onAction = ctx.handle {
+      onAction = handle {
         val selectedReq = tableView.selectionModel.value.getSelectedItem
         if (selectedReq != null) {
           if (ctx.confirmDeletion("Delete Family Request", s"Are you sure you want to delete request for ${selectedReq.familyName}?")) {

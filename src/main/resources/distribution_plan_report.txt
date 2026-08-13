@@ -1,4 +1,4 @@
-DAILY DISTRIBUTION PLAN — 2026-08-08
+DAILY DISTRIBUTION PLAN — 2026-08-11
 ========================================================================
 Family: Hassan Family | Size: 7 | Urgency: 5
   Category: Proteins | Dietary: Halal
@@ -31,11 +31,12 @@ Family: Garcia Family | Size: 5 | Urgency: 4
 ------------------------------------------------------------------------
 Family: Anderson Family | Size: 5 | Urgency: 4
   Category: Proteins | Dietary: Gluten-Free
-  -> 10.00 units of Firm Tofu
+  -> *** NO MATCHING INVENTORY AVAILABLE ***
 ------------------------------------------------------------------------
 Family: Wong Family | Size: 4 | Urgency: 4
   Category: Proteins | Dietary: Standard
-  -> 8.00 units of Liquid Eggs
+  -> 4.00 kg of Chicken Breast
+  -> 4.00 kg of Ground Beef
 ------------------------------------------------------------------------
 Family: Singh Family | Size: 3 | Urgency: 4
   Category: Proteins | Dietary: Vegetarian
@@ -43,7 +44,7 @@ Family: Singh Family | Size: 3 | Urgency: 4
 ------------------------------------------------------------------------
 Family: Suzuki Family | Size: 2 | Urgency: 4
   Category: Fruits & Vegetables | Dietary: Vegan
-  -> 4.00 kg of Fresh Spinach
+  -> *** NO MATCHING INVENTORY AVAILABLE ***
 ------------------------------------------------------------------------
 Family: Miller Family | Size: 4 | Urgency: 3
   Category: Grains & Cereals | Dietary: Standard
@@ -51,7 +52,7 @@ Family: Miller Family | Size: 4 | Urgency: 3
 ------------------------------------------------------------------------
 Family: Kim Family | Size: 4 | Urgency: 3
   Category: Beverages | Dietary: Standard
-  -> 8.00 kg of Cheddar Cheese
+  -> 8.00 units of Whole Milk
 ------------------------------------------------------------------------
 Family: Nguyen Family | Size: 4 | Urgency: 3
   Category: Condiments & Cooking Essentials | Dietary: Standard
@@ -75,7 +76,7 @@ Family: Williams Family | Size: 3 | Urgency: 2
 ------------------------------------------------------------------------
 Family: Nakamura Family | Size: 2 | Urgency: 2
   Category: Fruits & Vegetables | Dietary: Standard
-  -> 4.00 kg of Fresh Spinach
+  -> 4.00 kg of Fresh Broccoli
 ------------------------------------------------------------------------
 Family: Taylor Family | Size: 3 | Urgency: 1
   Category: Non-Food Essentials | Dietary: Standard
@@ -84,18 +85,18 @@ Family: Taylor Family | Size: 3 | Urgency: 1
 
 REMAINING INVENTORY AFTER ALLOCATION:
 ========================================================================
-  Whole Milk                | Beverages              | 24.00 units
+  Whole Milk                | Beverages              | 16.00 units
   Strawberries              | Fruits & Vegetables    | 12.00 kg
   Greek Yogurt              | Beverages              | 18.00 units
-  Ground Beef               | Proteins               | 25.00 kg
-  Fresh Spinach             | Fruits & Vegetables    | 2.00 kg
+  Ground Beef               | Proteins               | 21.00 kg
+  Fresh Spinach             | Fruits & Vegetables    | 10.00 kg
   Tofu Blocks               | Proteins               | 15.00 units
-  Cheddar Cheese            | Beverages              | 12.00 kg
-  Chicken Breast            | Proteins               | 4.00 kg
+  Cheddar Cheese            | Beverages              | 20.00 kg
   Apples Bag                | Fruits & Vegetables    | 40.00 units
-  Fresh Broccoli            | Fruits & Vegetables    | 15.00 kg
-  Liquid Eggs               | Proteins               | 7.00 units
+  Fresh Broccoli            | Fruits & Vegetables    | 11.00 kg
+  Liquid Eggs               | Proteins               | 15.00 units
   Fresh Milk                | Beverages              | 12.00 units
+  Firm Tofu                 | Proteins               | 10.00 units
   Cherry Tomatoes           | Fruits & Vegetables    | 9.50 kg
   Orange Juice              | Beverages              | 20.00 units
   Butter Blocks             | Condiments & Cooking Essentials | 4.00 units
@@ -119,3 +120,5 @@ REMAINING INVENTORY AFTER ALLOCATION:
   Diapers Pack              | Baby & Infant Items    | 45.00 units
   Canned Tomato Soup        | Canned/Prepared Meals  | 80.00 units
   Basmati Rice              | Grains & Cereals       | 110.00 kg
+  Yakult                    | Beverages              | 10.00 units
+  Mango Ice Cream           | Beverages              | 5.00 units

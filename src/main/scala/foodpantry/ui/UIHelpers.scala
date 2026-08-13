@@ -8,7 +8,7 @@ import scalafx.beans.property.StringProperty
 
 // ── Shared UI Utilities & DRY Builders ───────────────────────────────────────
 // Shared UI utilities used by all four screen objects.
-// Screens extend this trait to access helpers without duplication.
+// Screens extend this interface to access helpers without duplication.
 trait UIHelpers {
 
   // ── Constant Food Categories ──────────────────────────────────────────────

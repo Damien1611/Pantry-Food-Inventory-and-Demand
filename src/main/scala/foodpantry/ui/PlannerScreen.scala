@@ -13,6 +13,7 @@ import scalafx.scene.layout._
 object PlannerScreen extends UIHelpers {
 
   def create(ctx: AppContext): Pane = {
+    import ctx.handle
     // ── Screen Headers ───────────────────────────────────────────────────────
     val titleLbl    = new Label("Distribution Planner & Waste Reducer") { styleClass.add("header-title") }
     val subtitleLbl = new Label("Run the optimization engine to match pending family requests to expiring inventory items.") { styleClass.add("header-subtitle") }
@@ -70,7 +71,7 @@ object PlannerScreen extends UIHelpers {
     }
 
     // ── Optimization Plan Computation ─────────────────────────────────────────
-    btnRun.onAction = ctx.handle {
+    btnRun.onAction = handle {
       val inventoryItems = ctx.inventoryBuffer.toList
       val familyRequests = ctx.requestsBuffer.toList
 
@@ -97,7 +98,7 @@ object PlannerScreen extends UIHelpers {
     // ── Document Export Action ────────────────────────────────────────────────
     // ai-assisted: #10
     // why: Export distribution plan and remaining stock report to file using PrintWriter wrapped in a safe scala.util.Try block with finally resource cleanup.
-    btnSavePlan.onAction = ctx.handle {
+    btnSavePlan.onAction = handle {
       val exportPath = "src/main/resources/distribution_plan_report.txt"
       scala.util.Try {
         val pw = new java.io.PrintWriter(new java.io.File(exportPath), "UTF-8")

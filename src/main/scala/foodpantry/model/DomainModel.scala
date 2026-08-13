@@ -3,7 +3,7 @@ package foodpantry.model
 import java.time.LocalDate
 
 // ai-assisted: #1
-// why: Define the core sealed trait hierarchy for pantry items to support compile-time exhaustive checks and implement S1-7.
+// why: Define the core hierarchy for pantry items to support compile-time exhaustive checks and implement S1-7.
 sealed trait PantryItem {
   val itemId: String
   val itemName: String

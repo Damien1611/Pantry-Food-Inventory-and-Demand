@@ -52,7 +52,7 @@ object Main extends JFXApp3 {
     val rootPane = new BorderPane()
 
     // Apply the premium stylesheet
-    val sceneObj = new Scene(rootPane, 1280, 820)
+    val sceneObj = new Scene(rootPane, 1400, 820)
     sceneObj.stylesheets.add(styleSheetPath)
 
     stage = new JFXApp3.PrimaryStage {
@@ -115,19 +115,21 @@ object Main extends JFXApp3 {
     }
 
     // ── Sidebar Click Event Handlers ─────────────────────────────────────────
-    btnDashboard.onAction = ctx.handle {
+    import ctx.handle
+
+    btnDashboard.onAction = handle {
       setScreen(DashboardScreen.create(ctx), btnDashboard)
     }
 
-    btnInventory.onAction = ctx.handle {
+    btnInventory.onAction = handle {
       setScreen(InventoryScreen.create(ctx), btnInventory)
     }
 
-    btnRequests.onAction = ctx.handle {
+    btnRequests.onAction = handle {
       setScreen(RequestsScreen.create(ctx), btnRequests)
     }
 
-    btnPlanner.onAction = ctx.handle {
+    btnPlanner.onAction = handle {
       setScreen(PlannerScreen.create(ctx), btnPlanner)
     }
 

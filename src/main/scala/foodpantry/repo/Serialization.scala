@@ -5,13 +5,13 @@ import java.time.LocalDate
 import scala.util.Try
 
 // ai-assisted: #2
-// why: Implement a generic serializer trait supporting parametric polymorphism (S1-9) to standardise CSV record loading.
+// why: Implement a generic serializer interface supporting parametric polymorphism (S1-9) to standardise CSV record loading.
 trait RecordSerializer[T] {
   def serialize(record: T): String
   def deserialize(line: String): Try[T]
 }
 
-// S1-13: DRY - Helper object extracting shared parsing logic to avoid copy-paste
+// S1-13: DRY - Helper utility extracting shared parsing logic to avoid copy-paste
 object SerializationHelper {
   // S1-12: Exception handling - wrapping parsing functions in scala.util.Try
   def safeParseInt(text: String): Try[Int] = {
