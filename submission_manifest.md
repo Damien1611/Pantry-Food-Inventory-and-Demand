@@ -18,7 +18,7 @@
 - [x] docs/ai_reflection.md — AI reflection (300-500 words)
 - [x] docs/dev_log.md — ≥5 dated entries
 - [x] docs/citations.md — third-party citations
-- [ ] docs/demo.mp4 — ≤5 min walkthrough
+- [x] docs/demo.mp4 — ≤5 min walkthrough
 - [x] ai/interaction_log.md — Template 2 (≥10 entries)
 - [x] ai/declaration.md — Template 3 (signed)
 
