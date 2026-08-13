@@ -12,7 +12,7 @@
 - [x] project/build.properties — sbt version
 - [x] src/main/scala/ — all production source files
 - [x] src/main/resources/ — sample data / assets (if any)
-- [ ] src/test/scala/ — unit tests (optional)
+- [x] src/test/scala/ — unit tests (optional)
 - [x] docs/UML.png (or .pdf) — class diagram with ≥5 classes
 - [x] docs/reflection.md — personal reflection (~350-700 words)
 - [x] docs/ai_reflection.md — AI reflection (300-500 words)
@@ -24,15 +24,15 @@
 
 ## Self-reported metrics (will be auto-verified)
 | Metric | Required | Your value |
-|---|---|---|
-| Number of classes / traits in src/main/scala | ≥ 5 | 21 |
-| Number of `// ai-assisted: #N` tags in src/ | ≥ 3 | 8 |
-| Number of entries in ai/interaction_log.md | ≥ 10 | 22 |
-| Distinct dates in docs/dev_log.md | ≥ 5 | 9 |
-| Word count of docs/reflection.md | 350–700 | 544 |
-| Word count of docs/ai_reflection.md | 300–500 | 385 |
-| sbt -Wunused clean compile passes? | Yes | Yes |
-| All four required features work end-to-end? | Yes | Yes |
+|---|---|------------|
+| Number of classes / traits in src/main/scala | ≥ 5 | 21         |
+| Number of `// ai-assisted: #N` tags in src/ | ≥ 3 | 8          |
+| Number of entries in ai/interaction_log.md | ≥ 10 | 22         |
+| Distinct dates in docs/dev_log.md | ≥ 5 | 10         |
+| Word count of docs/reflection.md | 350–700 | 544        |
+| Word count of docs/ai_reflection.md | 300–500 | 385        |
+| sbt -Wunused clean compile passes? | Yes | Yes        |
+| All four required features work end-to-end? | Yes | Yes        |
 
 ## Signature
 I confirm the above is accurate and that the contents of this folder
